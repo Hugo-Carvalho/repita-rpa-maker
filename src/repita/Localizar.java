@@ -104,6 +104,14 @@ public class Localizar extends javax.swing.JFrame {
                 jTextFieldSubstituirMouseEntered(evt);
             }
         });
+        jTextFieldSubstituir.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextFieldSubstituirKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextFieldSubstituirKeyReleased(evt);
+            }
+        });
 
         jButtonSubstituir.setText("Substituir");
         jButtonSubstituir.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -128,6 +136,11 @@ public class Localizar extends javax.swing.JFrame {
         });
 
         jCheckBox1.setText("Diferenciar maiúsculas/minúsculas");
+        jCheckBox1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jCheckBox1MouseEntered(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -230,18 +243,42 @@ public class Localizar extends javax.swing.JFrame {
         AWTUtilities.setWindowOpacity(this, 1.0f);
     }//GEN-LAST:event_jButtonLocalizarProximaMouseEntered
 
+    private void jCheckBox1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jCheckBox1MouseEntered
+        AWTUtilities.setWindowOpacity(this, 1.0f);
+    }//GEN-LAST:event_jCheckBox1MouseEntered
+
+    private void jTextFieldSubstituirKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldSubstituirKeyPressed
+        substituirStr = jTextFieldSubstituir.getText();
+    }//GEN-LAST:event_jTextFieldSubstituirKeyPressed
+
+    private void jTextFieldSubstituirKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldSubstituirKeyReleased
+        substituirStr = jTextFieldSubstituir.getText();
+    }//GEN-LAST:event_jTextFieldSubstituirKeyReleased
+
     private void undecored(JFrame jFrame) throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException{
         Field undecoratedField = Frame.class.getDeclaredField("undecorated");
         undecoratedField.setAccessible(true);
         undecoratedField.set(jFrame, true);
     }
     
-    public void addActionListener(ActionListener listener) {
+    public void addActionListenerjButtonLocalizar(ActionListener listener) {
         jButtonLocalizar.addActionListener(listener);
-    }  
+    }
+    
+    public void addActionListenerjButtonLocalizarProxima(ActionListener listener) {
+        jButtonLocalizarProxima.addActionListener(listener);
+    }
+    
+    public void addActionListenerjButtonSubstituir(ActionListener listener) {
+        jButtonSubstituir.addActionListener(listener);
+    }
 
     public String getLocalizarStr() {
         return localizarStr;
+    }
+
+    public String getSubstituirStr() {
+        return substituirStr;
     }
     
     public static synchronized Localizar getInstancia() {
@@ -256,6 +293,7 @@ public class Localizar extends javax.swing.JFrame {
     
     private static Localizar instancia;
     private String localizarStr;
+    private String substituirStr;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonLocalizar;

@@ -426,7 +426,7 @@ public class Repita extends javax.swing.JFrame {
 
     private void jMenuItemLocalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemLocalizarActionPerformed
         localizar = localizar.getInstancia();
-        localizar.addActionListener((ActionEvent evt1) -> {
+        localizar.addActionListenerjButtonLocalizar((ActionEvent evt1) -> {
             Editor editorSelected = (Editor) jTabbedPane.getSelectedComponent();
             String searchstr = localizar.getLocalizarStr();
             if (searchstr == null) {
@@ -434,12 +434,52 @@ public class Repita extends javax.swing.JFrame {
             }
 
             String aktStr = editorSelected.getjTextAreaScript().getText();
-            int Index = aktStr.indexOf(searchstr);
+            int index = aktStr.indexOf(searchstr);
 
-            if (Index == -1) {
+            if (index == -1) {
                 JOptionPane.showMessageDialog(null, "String not found", "Dialog", JOptionPane.INFORMATION_MESSAGE);
             } else {
-                editorSelected.getjTextAreaScript().select(Index, Index + searchstr.length());
+                editorSelected.getjTextAreaScript().select(index, index + searchstr.length());
+            }
+        });
+        localizar.addActionListenerjButtonLocalizarProxima((ActionEvent evt1) -> {
+            Editor editorSelected = (Editor) jTabbedPane.getSelectedComponent();
+            String searchstr = localizar.getLocalizarStr();
+            if (searchstr == null) {
+                return;
+            }
+
+            String aktStr = editorSelected.getjTextAreaScript().getText();
+            int currentCaretPosition = editorSelected.getjTextAreaScript().getCaretPosition ();
+            
+            if(currentCaretPosition < aktStr.length()){
+                int caracteresAnteriores = aktStr.substring(0, currentCaretPosition).length();
+                aktStr = aktStr.substring(currentCaretPosition, aktStr.length());
+                int index = aktStr.indexOf(searchstr);
+
+                if (index == -1) {
+                    JOptionPane.showMessageDialog(null, "String not found", "Dialog", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    editorSelected.getjTextAreaScript().select(caracteresAnteriores + index, (caracteresAnteriores + index) + searchstr.length());
+                }
+            }
+        });
+        localizar.addActionListenerjButtonSubstituir((ActionEvent evt1) -> {
+            Editor editorSelected = (Editor) jTabbedPane.getSelectedComponent();
+            String searchstr = localizar.getLocalizarStr();
+            if (searchstr == null) {
+                return;
+            }
+
+            String aktStr = editorSelected.getjTextAreaScript().getText();
+            int index = aktStr.indexOf(searchstr);
+
+            if (index == -1) {
+                JOptionPane.showMessageDialog(null, "String not found", "Dialog", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                editorSelected.getjTextAreaScript().select(index, index + searchstr.length());
+                editorSelected.getjTextAreaScript().replaceSelection(localizar.getSubstituirStr());
+                editorSelected.getjTextAreaScript().select(index, index + localizar.getSubstituirStr().length());
             }
         });
         localizar.setVisible(true);

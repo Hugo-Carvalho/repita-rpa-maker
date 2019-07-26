@@ -132,6 +132,8 @@
       </Properties>
       <Events>
         <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTextFieldSubstituirMouseEntered"/>
+        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextFieldSubstituirKeyPressed"/>
+        <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextFieldSubstituirKeyReleased"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jButtonSubstituir">
@@ -163,6 +165,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Diferenciar mai&#xfa;sculas/min&#xfa;sculas"/>
       </Properties>
+      <Events>
+        <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jCheckBox1MouseEntered"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
