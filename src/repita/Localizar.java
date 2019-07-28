@@ -42,6 +42,7 @@ public class Localizar extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel = new javax.swing.JPanel();
         jButtonLocalizar = new javax.swing.JButton();
         jTextFieldLocalizar = new javax.swing.JTextField();
         jLabelLocalizar = new javax.swing.JLabel();
@@ -50,8 +51,9 @@ public class Localizar extends javax.swing.JFrame {
         jButtonSubstituir = new javax.swing.JButton();
         jButtonSubstituirTodos = new javax.swing.JButton();
         jButtonLocalizarProxima = new javax.swing.JButton();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        jCheckBoxDifMaiuscMinusc = new javax.swing.JCheckBox();
 
+        setBackground(new java.awt.Color(255, 255, 255));
         setResizable(false);
         addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -62,6 +64,9 @@ public class Localizar extends javax.swing.JFrame {
             }
         });
 
+        jPanel.setBackground(new java.awt.Color(255, 255, 255));
+
+        jButtonLocalizar.setBackground(new java.awt.Color(255, 255, 255));
         jButtonLocalizar.setText("Localizar");
         jButtonLocalizar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -84,6 +89,7 @@ public class Localizar extends javax.swing.JFrame {
             }
         });
 
+        jLabelLocalizar.setBackground(new java.awt.Color(255, 255, 255));
         jLabelLocalizar.setText("Localizar:");
         jLabelLocalizar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -91,6 +97,7 @@ public class Localizar extends javax.swing.JFrame {
             }
         });
 
+        jLabelSubstituir.setBackground(new java.awt.Color(255, 255, 255));
         jLabelSubstituir.setText("Substituir por:");
         jLabelSubstituir.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -113,6 +120,7 @@ public class Localizar extends javax.swing.JFrame {
             }
         });
 
+        jButtonSubstituir.setBackground(new java.awt.Color(255, 255, 255));
         jButtonSubstituir.setText("Substituir");
         jButtonSubstituir.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -120,6 +128,7 @@ public class Localizar extends javax.swing.JFrame {
             }
         });
 
+        jButtonSubstituirTodos.setBackground(new java.awt.Color(255, 255, 255));
         jButtonSubstituirTodos.setText("Substituir todos");
         jButtonSubstituirTodos.setToolTipText("");
         jButtonSubstituirTodos.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -128,6 +137,7 @@ public class Localizar extends javax.swing.JFrame {
             }
         });
 
+        jButtonLocalizarProxima.setBackground(new java.awt.Color(255, 255, 255));
         jButtonLocalizarProxima.setText("Localizar proxima");
         jButtonLocalizarProxima.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -135,61 +145,84 @@ public class Localizar extends javax.swing.JFrame {
             }
         });
 
-        jCheckBox1.setText("Diferenciar maiúsculas/minúsculas");
-        jCheckBox1.addMouseListener(new java.awt.event.MouseAdapter() {
+        jCheckBoxDifMaiuscMinusc.setBackground(new java.awt.Color(255, 255, 255));
+        jCheckBoxDifMaiuscMinusc.setSelected(true);
+        jCheckBoxDifMaiuscMinusc.setText("Diferenciar maiúsculas/minúsculas");
+        jCheckBoxDifMaiuscMinusc.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jCheckBoxDifMaiuscMinuscMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jCheckBox1MouseEntered(evt);
+                jCheckBoxDifMaiuscMinuscMouseEntered(evt);
             }
         });
+
+        javax.swing.GroupLayout jPanelLayout = new javax.swing.GroupLayout(jPanel);
+        jPanel.setLayout(jPanelLayout);
+        jPanelLayout.setHorizontalGroup(
+            jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelLayout.createSequentialGroup()
+                .addGap(28, 28, 28)
+                .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButtonSubstituirTodos, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanelLayout.createSequentialGroup()
+                            .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabelSubstituir)
+                                .addComponent(jLabelLocalizar))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jTextFieldSubstituir)
+                                .addComponent(jTextFieldLocalizar, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(29, 29, 29)
+                            .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jButtonLocalizarProxima, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButtonLocalizar, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanelLayout.createSequentialGroup()
+                            .addComponent(jCheckBoxDifMaiuscMinusc)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButtonSubstituir, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(33, Short.MAX_VALUE))
+        );
+        jPanelLayout.setVerticalGroup(
+            jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelLayout.createSequentialGroup()
+                .addGap(37, 37, 37)
+                .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonLocalizar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldLocalizar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelLocalizar))
+                .addGap(18, 18, 18)
+                .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldSubstituir, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelSubstituir)
+                    .addComponent(jButtonLocalizarProxima, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelLayout.createSequentialGroup()
+                        .addGap(55, 55, 55)
+                        .addComponent(jCheckBoxDifMaiuscMinusc))
+                    .addGroup(jPanelLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jButtonSubstituirTodos, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButtonSubstituir, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(37, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelSubstituir)
-                            .addComponent(jLabelLocalizar))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextFieldSubstituir, javax.swing.GroupLayout.DEFAULT_SIZE, 333, Short.MAX_VALUE)
-                            .addComponent(jTextFieldLocalizar)))
-                    .addComponent(jCheckBox1))
-                .addGap(29, 29, 29)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButtonSubstituirTodos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonSubstituir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonLocalizarProxima, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
-                    .addComponent(jButtonLocalizar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addComponent(jPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(0, 0, 0))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(50, 50, 50)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonLocalizar)
-                    .addComponent(jTextFieldLocalizar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelLocalizar))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextFieldSubstituir, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelSubstituir)
-                    .addComponent(jButtonLocalizarProxima))
-                .addGap(18, 18, 18)
-                .addComponent(jButtonSubstituir)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jButtonSubstituirTodos)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jCheckBox1)
-                        .addGap(46, 46, 46))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0))
         );
 
         pack();
@@ -243,9 +276,9 @@ public class Localizar extends javax.swing.JFrame {
         AWTUtilities.setWindowOpacity(this, 1.0f);
     }//GEN-LAST:event_jButtonLocalizarProximaMouseEntered
 
-    private void jCheckBox1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jCheckBox1MouseEntered
+    private void jCheckBoxDifMaiuscMinuscMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jCheckBoxDifMaiuscMinuscMouseEntered
         AWTUtilities.setWindowOpacity(this, 1.0f);
-    }//GEN-LAST:event_jCheckBox1MouseEntered
+    }//GEN-LAST:event_jCheckBoxDifMaiuscMinuscMouseEntered
 
     private void jTextFieldSubstituirKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldSubstituirKeyPressed
         substituirStr = jTextFieldSubstituir.getText();
@@ -254,6 +287,10 @@ public class Localizar extends javax.swing.JFrame {
     private void jTextFieldSubstituirKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldSubstituirKeyReleased
         substituirStr = jTextFieldSubstituir.getText();
     }//GEN-LAST:event_jTextFieldSubstituirKeyReleased
+
+    private void jCheckBoxDifMaiuscMinuscMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jCheckBoxDifMaiuscMinuscMouseClicked
+        difMaiuscMinusc = jCheckBoxDifMaiuscMinusc.isSelected();
+    }//GEN-LAST:event_jCheckBoxDifMaiuscMinuscMouseClicked
 
     private void undecored(JFrame jFrame) throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException{
         Field undecoratedField = Frame.class.getDeclaredField("undecorated");
@@ -272,6 +309,10 @@ public class Localizar extends javax.swing.JFrame {
     public void addActionListenerjButtonSubstituir(ActionListener listener) {
         jButtonSubstituir.addActionListener(listener);
     }
+    
+    public void addActionListenerjButtonSubstituirTodos(ActionListener listener) {
+        jButtonSubstituirTodos.addActionListener(listener);
+    }
 
     public String getLocalizarStr() {
         return localizarStr;
@@ -279,6 +320,10 @@ public class Localizar extends javax.swing.JFrame {
 
     public String getSubstituirStr() {
         return substituirStr;
+    }
+
+    public boolean isDifMaiuscMinusc() {
+        return difMaiuscMinusc;
     }
     
     public static synchronized Localizar getInstancia() {
@@ -294,15 +339,17 @@ public class Localizar extends javax.swing.JFrame {
     private static Localizar instancia;
     private String localizarStr;
     private String substituirStr;
+    private boolean difMaiuscMinusc;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonLocalizar;
     private javax.swing.JButton jButtonLocalizarProxima;
     private javax.swing.JButton jButtonSubstituir;
     private javax.swing.JButton jButtonSubstituirTodos;
-    private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JCheckBox jCheckBoxDifMaiuscMinusc;
     private javax.swing.JLabel jLabelLocalizar;
     private javax.swing.JLabel jLabelSubstituir;
+    private javax.swing.JPanel jPanel;
     private javax.swing.JTextField jTextFieldLocalizar;
     private javax.swing.JTextField jTextFieldSubstituir;
     // End of variables declaration//GEN-END:variables

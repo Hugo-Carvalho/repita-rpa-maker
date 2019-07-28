@@ -11,8 +11,12 @@ import java.awt.Graphics;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import javax.swing.JComponent;
+import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -21,6 +25,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.MenuElement;
 import javax.swing.TransferHandler;
 import javax.swing.event.UndoableEditEvent;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.plaf.basic.BasicMenuBarUI;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
@@ -39,6 +44,9 @@ public class Repita extends javax.swing.JFrame {
     public Repita() {
         initComponents();
         customizeMenuBar(jMenuBar);
+
+        localizar = localizar.getInstancia();
+        addListenersLocalizar();
     }
 
     /**
@@ -176,6 +184,11 @@ public class Repita extends javax.swing.JFrame {
         jMenuItemAbrirProjeto.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItemAbrirProjeto.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jMenuItemAbrirProjeto.setText("Abrir Projeto");
+        jMenuItemAbrirProjeto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemAbrirProjetoActionPerformed(evt);
+            }
+        });
         jMenuArquivo.add(jMenuItemAbrirProjeto);
 
         jMenuItemFecharProjeto.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.CTRL_MASK));
@@ -426,64 +439,51 @@ public class Repita extends javax.swing.JFrame {
 
     private void jMenuItemLocalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemLocalizarActionPerformed
         localizar = localizar.getInstancia();
-        localizar.addActionListenerjButtonLocalizar((ActionEvent evt1) -> {
-            Editor editorSelected = (Editor) jTabbedPane.getSelectedComponent();
-            String searchstr = localizar.getLocalizarStr();
-            if (searchstr == null) {
-                return;
-            }
-
-            String aktStr = editorSelected.getjTextAreaScript().getText();
-            int index = aktStr.indexOf(searchstr);
-
-            if (index == -1) {
-                JOptionPane.showMessageDialog(null, "String not found", "Dialog", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                editorSelected.getjTextAreaScript().select(index, index + searchstr.length());
-            }
-        });
-        localizar.addActionListenerjButtonLocalizarProxima((ActionEvent evt1) -> {
-            Editor editorSelected = (Editor) jTabbedPane.getSelectedComponent();
-            String searchstr = localizar.getLocalizarStr();
-            if (searchstr == null) {
-                return;
-            }
-
-            String aktStr = editorSelected.getjTextAreaScript().getText();
-            int currentCaretPosition = editorSelected.getjTextAreaScript().getCaretPosition ();
-            
-            if(currentCaretPosition < aktStr.length()){
-                int caracteresAnteriores = aktStr.substring(0, currentCaretPosition).length();
-                aktStr = aktStr.substring(currentCaretPosition, aktStr.length());
-                int index = aktStr.indexOf(searchstr);
-
-                if (index == -1) {
-                    JOptionPane.showMessageDialog(null, "String not found", "Dialog", JOptionPane.INFORMATION_MESSAGE);
-                } else {
-                    editorSelected.getjTextAreaScript().select(caracteresAnteriores + index, (caracteresAnteriores + index) + searchstr.length());
-                }
-            }
-        });
-        localizar.addActionListenerjButtonSubstituir((ActionEvent evt1) -> {
-            Editor editorSelected = (Editor) jTabbedPane.getSelectedComponent();
-            String searchstr = localizar.getLocalizarStr();
-            if (searchstr == null) {
-                return;
-            }
-
-            String aktStr = editorSelected.getjTextAreaScript().getText();
-            int index = aktStr.indexOf(searchstr);
-
-            if (index == -1) {
-                JOptionPane.showMessageDialog(null, "String not found", "Dialog", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                editorSelected.getjTextAreaScript().select(index, index + searchstr.length());
-                editorSelected.getjTextAreaScript().replaceSelection(localizar.getSubstituirStr());
-                editorSelected.getjTextAreaScript().select(index, index + localizar.getSubstituirStr().length());
-            }
-        });
-        localizar.setVisible(true);
+        int i = jTabbedPane.getSelectedIndex();
+        if (i > 0) {
+            localizar.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "Nenhum projeto foi aberto ou iniciado", "Sem projetos", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_jMenuItemLocalizarActionPerformed
+
+    private void jMenuItemAbrirProjetoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemAbrirProjetoActionPerformed
+        JFileChooser fc = new JFileChooser();
+        fc.setDialogTitle("Escolha o arquivo...");
+        fc.setDialogType(JFileChooser.OPEN_DIALOG);
+        fc.setApproveButtonText("OK");
+        //fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Arquivo de configuração do robo", "acr", "repita");
+        fc.setFileFilter(filter);
+        fc.setMultiSelectionEnabled(false);
+        int resultado = fc.showOpenDialog(fc);
+        if (resultado == JFileChooser.CANCEL_OPTION) {
+            return;
+        }
+
+        File file = fc.getSelectedFile();
+        try {
+            editor = new Editor();
+            undoManager = new UndoManager();
+            editor.getjTextAreaScript().getDocument().addUndoableEditListener((UndoableEditEvent e) -> {
+                undoManager.addEdit(e.getEdit());
+            });
+            jTabbedPane.addTab(file.getName().replaceAll("\\..*", ""), null, editor, "ToolTip Text");
+            jTabbedPane.setSelectedComponent(editor);
+            int i = jTabbedPane.getSelectedIndex();
+            jTabbedPane.setTabComponentAt(i, new ButtonTabComponent(jTabbedPane));
+
+            FileReader reader = new FileReader(file);
+            BufferedReader input = new BufferedReader(reader);
+            String linha;
+            while ((linha = input.readLine()) != null) {
+                editor.getjTextAreaScript().append(linha + "\n");
+            }
+            input.close();
+        } catch (IOException ioe) {
+            System.out.println(ioe);
+        }
+    }//GEN-LAST:event_jMenuItemAbrirProjetoActionPerformed
 
     private void customizeMenuBar(JMenuBar menuBar) {
 
@@ -494,7 +494,6 @@ public class Repita extends javax.swing.JFrame {
                 g.setColor(Color.white);
                 g.fillRect(0, 0, c.getWidth(), c.getHeight());
             }
-
         });
 
         MenuElement[] menus = menuBar.getSubElements();
@@ -523,6 +522,112 @@ public class Repita extends javax.swing.JFrame {
                 }
             }
         }
+    }
+
+    private void addListenersLocalizar() {
+        localizar.addActionListenerjButtonLocalizar((ActionEvent evt1) -> {
+            Editor editorSelected = (Editor) jTabbedPane.getSelectedComponent();
+            String searchstr = localizar.getLocalizarStr();
+            if (searchstr == null) {
+                return;
+            }
+
+            String aktStr = editorSelected.getjTextAreaScript().getText();
+            if (!localizar.isDifMaiuscMinusc()) {
+                searchstr = searchstr.toUpperCase();
+                aktStr = aktStr.toUpperCase();
+            }
+
+            int index = aktStr.indexOf(searchstr);
+
+            if (index == -1) {
+                JOptionPane.showMessageDialog(null, "Texto não foi localizado!", "Localizar", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                editorSelected.getjTextAreaScript().select(index, index + searchstr.length());
+            }
+        });
+        localizar.addActionListenerjButtonLocalizarProxima((ActionEvent evt1) -> {
+            Editor editorSelected = (Editor) jTabbedPane.getSelectedComponent();
+            String searchstr = localizar.getLocalizarStr();
+            if (searchstr == null) {
+                return;
+            }
+
+            String aktStr = editorSelected.getjTextAreaScript().getText();
+            if (!localizar.isDifMaiuscMinusc()) {
+                searchstr = searchstr.toUpperCase();
+                aktStr = aktStr.toUpperCase();
+            }
+
+            int currentCaretPosition = editorSelected.getjTextAreaScript().getCaretPosition();
+
+            if (currentCaretPosition < aktStr.length()) {
+                int caracteresAnteriores = aktStr.substring(0, currentCaretPosition).length();
+                aktStr = aktStr.substring(currentCaretPosition, aktStr.length());
+                int index = aktStr.indexOf(searchstr);
+
+                if (index == -1) {
+                    JOptionPane.showMessageDialog(null, "Texto não foi localizado!", "Localizar proxima", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    editorSelected.getjTextAreaScript().select(caracteresAnteriores + index, (caracteresAnteriores + index) + searchstr.length());
+                }
+            }
+        });
+        localizar.addActionListenerjButtonSubstituir((ActionEvent evt1) -> {
+            Editor editorSelected = (Editor) jTabbedPane.getSelectedComponent();
+            String searchstr = localizar.getLocalizarStr();
+            String subssearchstr = localizar.getSubstituirStr();
+            if (searchstr == null) {
+                return;
+            }
+
+            if (subssearchstr == null) {
+                subssearchstr = "";
+            }
+
+            String aktStr = editorSelected.getjTextAreaScript().getText();
+            if (!localizar.isDifMaiuscMinusc()) {
+                searchstr = searchstr.toUpperCase();
+                aktStr = aktStr.toUpperCase();
+            }
+
+            int index = aktStr.indexOf(searchstr);
+
+            if (index == -1) {
+                JOptionPane.showMessageDialog(null, "Texto não foi localizado!", "Substituir", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                editorSelected.getjTextAreaScript().select(index, index + searchstr.length());
+                editorSelected.getjTextAreaScript().replaceSelection(localizar.getSubstituirStr());
+                editorSelected.getjTextAreaScript().select(index, index + searchstr.length());
+            }
+        });
+        localizar.addActionListenerjButtonSubstituirTodos((ActionEvent evt1) -> {
+            Editor editorSelected = (Editor) jTabbedPane.getSelectedComponent();
+            String searchstr = localizar.getLocalizarStr();
+            String subssearchstr = localizar.getSubstituirStr();
+            if (searchstr == null) {
+                return;
+            }
+
+            if (subssearchstr == null) {
+                subssearchstr = "";
+            }
+
+            String aktStr = editorSelected.getjTextAreaScript().getText();
+            if (!localizar.isDifMaiuscMinusc()) {
+                searchstr = searchstr.toUpperCase();
+                aktStr = aktStr.toUpperCase();
+            }
+
+            int index = aktStr.indexOf(searchstr);
+
+            if (index == -1) {
+                JOptionPane.showMessageDialog(null, "Texto não foi localizado!", "Substituir todos", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                aktStr = aktStr.replaceAll(searchstr, subssearchstr);
+                editorSelected.getjTextAreaScript().setText(aktStr);
+            }
+        });
     }
 
     private void changeComponentColors(Component comp) {
