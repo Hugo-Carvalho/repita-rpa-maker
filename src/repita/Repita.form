@@ -93,6 +93,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Salvar"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemSalvarActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemSalvarComo">
               <Properties>
@@ -104,6 +107,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Slavar como..."/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemSalvarComoActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator3">
               <Properties>
@@ -269,6 +275,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Substituir"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemSubstituirActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>
@@ -365,9 +374,9 @@
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="In&#xed;cio" toolTip="">
+              <JTabbedPaneConstraints tabName="In&#xed;cio" toolTip="In&#xed;cio">
                 <Property name="tabTitle" type="java.lang.String" value="In&#xed;cio"/>
-                <Property name="tabToolTip" type="java.lang.String" value=""/>
+                <Property name="tabToolTip" type="java.lang.String" value="In&#xed;cio"/>
               </JTabbedPaneConstraints>
             </Constraint>
           </Constraints>

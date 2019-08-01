@@ -14,7 +14,10 @@ import java.awt.event.ActionEvent;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JMenu;
@@ -157,7 +160,7 @@ public class Repita extends javax.swing.JFrame {
                 .addGap(111, 111, 111))
         );
 
-        jTabbedPane.addTab("Início", null, jPanelTelaInicial, "");
+        jTabbedPane.addTab("Início", null, jPanelTelaInicial, "Início");
 
         jMenuBar.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         jMenuBar.setDebugGraphicsOptions(javax.swing.DebugGraphics.NONE_OPTION);
@@ -209,11 +212,21 @@ public class Repita extends javax.swing.JFrame {
         jMenuItemSalvar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItemSalvar.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jMenuItemSalvar.setText("Salvar");
+        jMenuItemSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemSalvarActionPerformed(evt);
+            }
+        });
         jMenuArquivo.add(jMenuItemSalvar);
 
         jMenuItemSalvarComo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         jMenuItemSalvarComo.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jMenuItemSalvarComo.setText("Slavar como...");
+        jMenuItemSalvarComo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemSalvarComoActionPerformed(evt);
+            }
+        });
         jMenuArquivo.add(jMenuItemSalvarComo);
 
         jSeparator3.setForeground(new java.awt.Color(204, 204, 204));
@@ -322,6 +335,11 @@ public class Repita extends javax.swing.JFrame {
         jMenuItemSubstituir.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_H, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItemSubstituir.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jMenuItemSubstituir.setText("Substituir");
+        jMenuItemSubstituir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemSubstituirActionPerformed(evt);
+            }
+        });
         jMenuEditar.add(jMenuItemSubstituir);
 
         jMenuBar.add(jMenuEditar);
@@ -357,11 +375,11 @@ public class Repita extends javax.swing.JFrame {
         String tituloProjeto;
         try {
             do {
-                tituloProjeto = JOptionPane.showInputDialog("Nome do projeto: ");
+                tituloProjeto = JOptionPane.showInputDialog(null, "Nome do projeto: ", "Novo projeto", JOptionPane.QUESTION_MESSAGE);
                 if (tituloProjeto.equals("")) {
                     JOptionPane.showMessageDialog(this, "O projeto precisa de um nome!");
                 } else {
-                    jTabbedPane.addTab(tituloProjeto, null, editor, "ToolTip Text");
+                    jTabbedPane.addTab(tituloProjeto, null, editor, tituloProjeto);
 
                     jTabbedPane.setSelectedComponent(editor);
                     int i = jTabbedPane.getSelectedIndex();
@@ -464,11 +482,12 @@ public class Repita extends javax.swing.JFrame {
         File file = fc.getSelectedFile();
         try {
             editor = new Editor();
+            editor.setArquivo(file);
             undoManager = new UndoManager();
             editor.getjTextAreaScript().getDocument().addUndoableEditListener((UndoableEditEvent e) -> {
                 undoManager.addEdit(e.getEdit());
             });
-            jTabbedPane.addTab(file.getName().replaceAll("\\..*", ""), null, editor, "ToolTip Text");
+            jTabbedPane.addTab(file.getName().replaceAll("\\..*", ""), null, editor, file.getName().replaceAll("\\..*", ""));
             jTabbedPane.setSelectedComponent(editor);
             int i = jTabbedPane.getSelectedIndex();
             jTabbedPane.setTabComponentAt(i, new ButtonTabComponent(jTabbedPane));
@@ -484,6 +503,94 @@ public class Repita extends javax.swing.JFrame {
             System.out.println(ioe);
         }
     }//GEN-LAST:event_jMenuItemAbrirProjetoActionPerformed
+
+    private void jMenuItemSubstituirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSubstituirActionPerformed
+        localizar = localizar.getInstancia();
+        int i = jTabbedPane.getSelectedIndex();
+        if (i > 0) {
+            localizar.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "Nenhum projeto foi aberto ou iniciado", "Sem projetos", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_jMenuItemSubstituirActionPerformed
+
+    private void jMenuItemSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSalvarActionPerformed
+        localizar = localizar.getInstancia();
+        int i = jTabbedPane.getSelectedIndex();
+        if (i > 0) {
+            Editor editorSelected = (Editor) jTabbedPane.getSelectedComponent();
+            File arquivo = editorSelected.getArquivo();
+
+            if (arquivo == null) {
+                JFileChooser fc = new JFileChooser();
+                fc.setDialogTitle("Salvar em...");
+                fc.setDialogType(JFileChooser.OPEN_DIALOG);
+                fc.setApproveButtonText("OK");
+                //fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("Arquivo de configuração do robo", "acr", "repita");
+                fc.setFileFilter(filter);
+                fc.setMultiSelectionEnabled(false);
+                fc.setSelectedFile(new File(jTabbedPane.getTitleAt(jTabbedPane.getSelectedIndex())));
+                int resultado = fc.showOpenDialog(fc);
+                if (resultado == JFileChooser.CANCEL_OPTION) {
+                    return;
+                }
+
+                arquivo = new File(fc.getSelectedFile().getAbsolutePath() + ".acr");
+                editorSelected.setArquivo(arquivo);
+                jTabbedPane.setTitleAt(jTabbedPane.getSelectedIndex(), arquivo.getName().replaceAll("\\..*", ""));
+            }
+
+            FileWriter write;
+            try {
+                write = new FileWriter(arquivo);
+                editorSelected.getjTextAreaScript().write(write);
+            } catch (IOException ex) {
+                Logger.getLogger(Repita.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Nenhum projeto foi aberto ou iniciado", "Sem projetos", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_jMenuItemSalvarActionPerformed
+
+    private void jMenuItemSalvarComoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSalvarComoActionPerformed
+        localizar = localizar.getInstancia();
+        int i = jTabbedPane.getSelectedIndex();
+        if (i > 0) {
+            Editor editorSelected = (Editor) jTabbedPane.getSelectedComponent();
+            File arquivo;
+            
+            JFileChooser fc = new JFileChooser();
+            fc.setDialogTitle("Salvar em...");
+            fc.setDialogType(JFileChooser.OPEN_DIALOG);
+            fc.setApproveButtonText("OK");
+            //fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("Arquivo de configuração do robo", "acr", "repita");
+            fc.setFileFilter(filter);
+            fc.setMultiSelectionEnabled(false);
+            fc.setSelectedFile(new File(jTabbedPane.getTitleAt(jTabbedPane.getSelectedIndex())));
+            int resultado = fc.showOpenDialog(fc);
+            if (resultado == JFileChooser.CANCEL_OPTION) {
+                return;
+            }
+
+            arquivo = new File(fc.getSelectedFile().getAbsolutePath() + ".acr");
+            editorSelected.setArquivo(arquivo);
+            jTabbedPane.setTitleAt(jTabbedPane.getSelectedIndex(), arquivo.getName().replaceAll("\\..*", ""));
+
+            FileWriter write;
+            try {
+                write = new FileWriter(arquivo);
+                editorSelected.getjTextAreaScript().write(write);
+            } catch (IOException ex) {
+                Logger.getLogger(Repita.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Nenhum projeto foi aberto ou iniciado", "Sem projetos", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_jMenuItemSalvarComoActionPerformed
 
     private void customizeMenuBar(JMenuBar menuBar) {
 

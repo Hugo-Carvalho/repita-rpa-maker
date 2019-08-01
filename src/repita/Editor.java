@@ -5,6 +5,7 @@
  */
 package repita;
 
+import java.io.File;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import telas.TextLineNumber;
@@ -73,6 +74,16 @@ public class Editor extends javax.swing.JPanel {
     public JTextArea getjTextAreaScript() {
         return jTextAreaScript;
     }
+
+    public File getArquivo() {
+        return arquivo;
+    }
+
+    public void setArquivo(File arquivo) {
+        this.arquivo = arquivo;
+    }
+    
+    private File arquivo;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane;
