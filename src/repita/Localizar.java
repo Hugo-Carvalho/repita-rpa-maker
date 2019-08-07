@@ -15,7 +15,7 @@ import javax.swing.JFrame;
 
 /**
  *
- * @author hugan
+ * @author Hugo Carvalho
  */
 public class Localizar extends javax.swing.JFrame {
 

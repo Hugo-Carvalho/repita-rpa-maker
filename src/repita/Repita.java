@@ -33,7 +33,7 @@ import javax.swing.plaf.basic.BasicMenuBarUI;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
-import telas.ButtonTabComponent;
+import componentes.ButtonTabComponent;
 
 /**
  *
@@ -46,6 +46,7 @@ public class Repita extends javax.swing.JFrame {
      */
     public Repita() {
         initComponents();
+        
         customizeMenuBar(jMenuBar);
 
         localizar = localizar.getInstancia();
@@ -61,12 +62,20 @@ public class Repita extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        jCheckBoxMenuItem1 = new javax.swing.JCheckBoxMenuItem();
+        jPanelBarraRapida = new javax.swing.JPanel();
+        jSeparator6 = new javax.swing.JSeparator();
+        jButtonAbrirProjeto = new javax.swing.JButton();
+        jButtonNovoProjeto = new javax.swing.JButton();
+        jButtonSalvar = new javax.swing.JButton();
+        jButtonDesfazer = new javax.swing.JButton();
+        jButtonRefazer = new javax.swing.JButton();
+        jSeparator7 = new javax.swing.JSeparator();
         jTabbedPane = new javax.swing.JTabbedPane();
         jPanelTelaInicial = new javax.swing.JPanel();
         jPanelImage = new javax.swing.JPanel();
-        jLabelTitle = new javax.swing.JLabel();
         jLabelLogo = new javax.swing.JLabel();
+        jLabelTitle = new javax.swing.JLabel();
         jMenuBar = new javax.swing.JMenuBar();
         jMenuArquivo = new javax.swing.JMenu();
         jMenuItemNovoProjeto = new javax.swing.JMenuItem();
@@ -86,27 +95,101 @@ public class Repita extends javax.swing.JFrame {
         jMenuItemCopiar = new javax.swing.JMenuItem();
         jMenuItemColar = new javax.swing.JMenuItem();
         jMenuItemExcluir = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItemSelecionarTudo = new javax.swing.JMenuItem();
         jSeparator5 = new javax.swing.JPopupMenu.Separator();
         jMenuItemLocalizar = new javax.swing.JMenuItem();
         jMenuItemSubstituir = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
+        jCheckBoxMenuItemBarraRapida = new javax.swing.JCheckBoxMenuItem();
+
+        jCheckBoxMenuItem1.setSelected(true);
+        jCheckBoxMenuItem1.setText("jCheckBoxMenuItem1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Repita RPA");
         setBackground(new java.awt.Color(40, 41, 35));
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanelBarraRapida.setBackground(new java.awt.Color(245, 245, 245));
+        jPanelBarraRapida.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+        jSeparator6.setOrientation(javax.swing.SwingConstants.VERTICAL);
+
+        jButtonAbrirProjeto.setBackground(new java.awt.Color(245, 245, 245));
+        jButtonAbrirProjeto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/abrir.png"))); // NOI18N
+        jButtonAbrirProjeto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAbrirProjetoActionPerformed(evt);
+            }
+        });
+
+        jButtonNovoProjeto.setBackground(new java.awt.Color(245, 245, 245));
+        jButtonNovoProjeto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/novo.png"))); // NOI18N
+        jButtonNovoProjeto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonNovoProjetoActionPerformed(evt);
+            }
+        });
+
+        jButtonSalvar.setBackground(new java.awt.Color(245, 245, 245));
+        jButtonSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/salvar.png"))); // NOI18N
+        jButtonSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSalvarActionPerformed(evt);
+            }
+        });
+
+        jButtonDesfazer.setBackground(new java.awt.Color(245, 245, 245));
+        jButtonDesfazer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/desfazer.png"))); // NOI18N
+        jButtonDesfazer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDesfazerActionPerformed(evt);
+            }
+        });
+
+        jButtonRefazer.setBackground(new java.awt.Color(245, 245, 245));
+        jButtonRefazer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/refazer.png"))); // NOI18N
+        jButtonRefazer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonRefazerActionPerformed(evt);
+            }
+        });
+
+        jSeparator7.setOrientation(javax.swing.SwingConstants.VERTICAL);
+
+        javax.swing.GroupLayout jPanelBarraRapidaLayout = new javax.swing.GroupLayout(jPanelBarraRapida);
+        jPanelBarraRapida.setLayout(jPanelBarraRapidaLayout);
+        jPanelBarraRapidaLayout.setHorizontalGroup(
+            jPanelBarraRapidaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelBarraRapidaLayout.createSequentialGroup()
+                .addGap(8, 8, 8)
+                .addComponent(jButtonNovoProjeto, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonAbrirProjeto, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonDesfazer, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonRefazer, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 135, Short.MAX_VALUE)
+        jPanelBarraRapidaLayout.setVerticalGroup(
+            jPanelBarraRapidaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelBarraRapidaLayout.createSequentialGroup()
+                .addGap(1, 1, 1)
+                .addGroup(jPanelBarraRapidaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jSeparator7)
+                    .addComponent(jButtonRefazer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonDesfazer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jSeparator6, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonAbrirProjeto, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonNovoProjeto, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonSalvar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(1, 1, 1))
         );
 
         jTabbedPane.setBackground(new java.awt.Color(40, 41, 35));
@@ -116,11 +199,11 @@ public class Repita extends javax.swing.JFrame {
 
         jPanelImage.setBackground(new java.awt.Color(40, 41, 35));
 
-        jLabelTitle.setBackground(new java.awt.Color(40, 41, 35));
-        jLabelTitle.setIcon(new javax.swing.ImageIcon(getClass().getResource("/repita/logo-mini.png"))); // NOI18N
-
         jLabelLogo.setBackground(new java.awt.Color(40, 41, 35));
-        jLabelLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/repita/title.PNG"))); // NOI18N
+        jLabelLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/logo-mini.png"))); // NOI18N
+
+        jLabelTitle.setBackground(new java.awt.Color(40, 41, 35));
+        jLabelTitle.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/title.PNG"))); // NOI18N
 
         javax.swing.GroupLayout jPanelImageLayout = new javax.swing.GroupLayout(jPanelImage);
         jPanelImage.setLayout(jPanelImageLayout);
@@ -128,19 +211,19 @@ public class Repita extends javax.swing.JFrame {
             jPanelImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelImageLayout.createSequentialGroup()
                 .addGroup(jPanelImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabelLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanelImageLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jLabelTitle)))
+                        .addComponent(jLabelLogo)))
                 .addGap(0, 0, 0))
         );
         jPanelImageLayout.setVerticalGroup(
             jPanelImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelImageLayout.createSequentialGroup()
                 .addGap(0, 0, 0)
-                .addComponent(jLabelTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabelLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(jLabelLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jLabelTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout jPanelTelaInicialLayout = new javax.swing.GroupLayout(jPanelTelaInicial);
@@ -155,7 +238,7 @@ public class Repita extends javax.swing.JFrame {
         jPanelTelaInicialLayout.setVerticalGroup(
             jPanelTelaInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelTelaInicialLayout.createSequentialGroup()
-                .addContainerGap(102, Short.MAX_VALUE)
+                .addContainerGap(139, Short.MAX_VALUE)
                 .addComponent(jPanelImage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(111, 111, 111))
         );
@@ -309,15 +392,15 @@ public class Repita extends javax.swing.JFrame {
         });
         jMenuEditar.add(jMenuItemExcluir);
 
-        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jMenuItem1.setText("Selecionar Tudo");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItemSelecionarTudo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItemSelecionarTudo.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jMenuItemSelecionarTudo.setText("Selecionar Tudo");
+        jMenuItemSelecionarTudo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                jMenuItemSelecionarTudoActionPerformed(evt);
             }
         });
-        jMenuEditar.add(jMenuItem1);
+        jMenuEditar.add(jMenuItemSelecionarTudo);
 
         jSeparator5.setForeground(new java.awt.Color(204, 204, 204));
         jMenuEditar.add(jSeparator5);
@@ -344,20 +427,35 @@ public class Repita extends javax.swing.JFrame {
 
         jMenuBar.add(jMenuEditar);
 
+        jMenu1.setText("Janela");
+        jMenu1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+
+        jCheckBoxMenuItemBarraRapida.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jCheckBoxMenuItemBarraRapida.setSelected(true);
+        jCheckBoxMenuItemBarraRapida.setText("Exibir Barra de Opções Rapidas");
+        jCheckBoxMenuItemBarraRapida.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxMenuItemBarraRapidaActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jCheckBoxMenuItemBarraRapida);
+
+        jMenuBar.add(jMenu1);
+
         setJMenuBar(jMenuBar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanelBarraRapida, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jTabbedPane)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
+                .addComponent(jPanelBarraRapida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTabbedPane))
         );
 
@@ -396,10 +494,15 @@ public class Repita extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemSairActionPerformed
 
     private void jMenuItemColarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemColarActionPerformed
-        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-        Editor editorSelected = (Editor) jTabbedPane.getSelectedComponent();
-        TransferHandler transferHandler = editorSelected.getjTextAreaScript().getTransferHandler();
-        transferHandler.importData(editorSelected.getjTextAreaScript(), clipboard.getContents(null));
+        int i = jTabbedPane.getSelectedIndex();
+        if (i > 0) {
+            Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+            Editor editorSelected = (Editor) jTabbedPane.getSelectedComponent();
+            TransferHandler transferHandler = editorSelected.getjTextAreaScript().getTransferHandler();
+            transferHandler.importData(editorSelected.getjTextAreaScript(), clipboard.getContents(null));
+        } else {
+            JOptionPane.showMessageDialog(null, "Nenhum projeto foi aberto ou iniciado", "Sem projetos", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_jMenuItemColarActionPerformed
 
     private void jMenuItemFecharProjetoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemFecharProjetoActionPerformed
@@ -415,44 +518,74 @@ public class Repita extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemFecharProjetoActionPerformed
 
     private void jMenuItemCopiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCopiarActionPerformed
-        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-        Editor editorSelected = (Editor) jTabbedPane.getSelectedComponent();
-        TransferHandler transferHandler = editorSelected.getjTextAreaScript().getTransferHandler();
-        transferHandler.exportToClipboard(editorSelected.getjTextAreaScript(), clipboard, TransferHandler.COPY);
+        int i = jTabbedPane.getSelectedIndex();
+        if (i > 0) {
+            Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+            Editor editorSelected = (Editor) jTabbedPane.getSelectedComponent();
+            TransferHandler transferHandler = editorSelected.getjTextAreaScript().getTransferHandler();
+            transferHandler.exportToClipboard(editorSelected.getjTextAreaScript(), clipboard, TransferHandler.COPY);
+        } else {
+            JOptionPane.showMessageDialog(null, "Nenhum projeto foi aberto ou iniciado", "Sem projetos", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_jMenuItemCopiarActionPerformed
 
     private void jMenuItemRecortarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemRecortarActionPerformed
-        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-        Editor editorSelected = (Editor) jTabbedPane.getSelectedComponent();
-        TransferHandler transferHandler = editorSelected.getjTextAreaScript().getTransferHandler();
-        transferHandler.exportToClipboard(editorSelected.getjTextAreaScript(), clipboard, TransferHandler.COPY);
-        editorSelected.getjTextAreaScript().replaceSelection("");
+        int i = jTabbedPane.getSelectedIndex();
+        if (i > 0) {
+            Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+            Editor editorSelected = (Editor) jTabbedPane.getSelectedComponent();
+            TransferHandler transferHandler = editorSelected.getjTextAreaScript().getTransferHandler();
+            transferHandler.exportToClipboard(editorSelected.getjTextAreaScript(), clipboard, TransferHandler.COPY);
+            editorSelected.getjTextAreaScript().replaceSelection("");
+        } else {
+            JOptionPane.showMessageDialog(null, "Nenhum projeto foi aberto ou iniciado", "Sem projetos", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_jMenuItemRecortarActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        Editor editorSelected = (Editor) jTabbedPane.getSelectedComponent();
-        editorSelected.getjTextAreaScript().selectAll();
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    private void jMenuItemSelecionarTudoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSelecionarTudoActionPerformed
+        int i = jTabbedPane.getSelectedIndex();
+        if (i > 0) {
+            Editor editorSelected = (Editor) jTabbedPane.getSelectedComponent();
+            editorSelected.getjTextAreaScript().selectAll();
+        } else {
+            JOptionPane.showMessageDialog(null, "Nenhum projeto foi aberto ou iniciado", "Sem projetos", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_jMenuItemSelecionarTudoActionPerformed
 
     private void jMenuItemDesfazerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemDesfazerActionPerformed
-        try {
-            undoManager.undo();
-        } catch (CannotUndoException cre) {
-            System.out.println("undo manager limit");
+        int i = jTabbedPane.getSelectedIndex();
+        if (i > 0) {
+            try {
+                undoManager.undo();
+            } catch (CannotUndoException cre) {
+                System.out.println("undo manager limit");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Nenhum projeto foi aberto ou iniciado", "Sem projetos", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_jMenuItemDesfazerActionPerformed
 
     private void jMenuItemRefazerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemRefazerActionPerformed
-        try {
-            undoManager.redo();
-        } catch (CannotRedoException cre) {
-            System.out.println("redo manager limit");
+        int i = jTabbedPane.getSelectedIndex();
+        if (i > 0) {
+            try {
+                undoManager.redo();
+            } catch (CannotRedoException cre) {
+                System.out.println("redo manager limit");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Nenhum projeto foi aberto ou iniciado", "Sem projetos", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_jMenuItemRefazerActionPerformed
 
     private void jMenuItemExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemExcluirActionPerformed
-        Editor editorSelected = (Editor) jTabbedPane.getSelectedComponent();
-        editorSelected.getjTextAreaScript().replaceSelection("");
+        int i = jTabbedPane.getSelectedIndex();
+        if (i > 0) {
+            Editor editorSelected = (Editor) jTabbedPane.getSelectedComponent();
+            editorSelected.getjTextAreaScript().replaceSelection("");
+        } else {
+            JOptionPane.showMessageDialog(null, "Nenhum projeto foi aberto ou iniciado", "Sem projetos", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_jMenuItemExcluirActionPerformed
 
     private void jMenuItemLocalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemLocalizarActionPerformed
@@ -496,7 +629,7 @@ public class Repita extends javax.swing.JFrame {
             BufferedReader input = new BufferedReader(reader);
             String linha;
             while ((linha = input.readLine()) != null) {
-                editor.getjTextAreaScript().append(linha + "\n");
+                editor.getjTextAreaScript().setText(editor.getjTextAreaScript().getText() + linha + "\n");
             }
             input.close();
         } catch (IOException ioe) {
@@ -560,7 +693,7 @@ public class Repita extends javax.swing.JFrame {
         if (i > 0) {
             Editor editorSelected = (Editor) jTabbedPane.getSelectedComponent();
             File arquivo;
-            
+
             JFileChooser fc = new JFileChooser();
             fc.setDialogTitle("Salvar em...");
             fc.setDialogType(JFileChooser.OPEN_DIALOG);
@@ -591,6 +724,141 @@ public class Repita extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Nenhum projeto foi aberto ou iniciado", "Sem projetos", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_jMenuItemSalvarComoActionPerformed
+
+    private void jButtonNovoProjetoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNovoProjetoActionPerformed
+        editor = new Editor();
+        undoManager = new UndoManager();
+        editor.getjTextAreaScript().getDocument().addUndoableEditListener((UndoableEditEvent e) -> {
+            undoManager.addEdit(e.getEdit());
+        });
+        String tituloProjeto;
+        try {
+            do {
+                tituloProjeto = JOptionPane.showInputDialog(null, "Nome do projeto: ", "Novo projeto", JOptionPane.QUESTION_MESSAGE);
+                if (tituloProjeto.equals("")) {
+                    JOptionPane.showMessageDialog(this, "O projeto precisa de um nome!");
+                } else {
+                    jTabbedPane.addTab(tituloProjeto, null, editor, tituloProjeto);
+
+                    jTabbedPane.setSelectedComponent(editor);
+                    int i = jTabbedPane.getSelectedIndex();
+                    jTabbedPane.setTabComponentAt(i, new ButtonTabComponent(jTabbedPane));
+                }
+            } while (tituloProjeto.equals(""));
+        } catch (NullPointerException e) {
+            System.out.println("Novo projeto cancelado");
+        }
+    }//GEN-LAST:event_jButtonNovoProjetoActionPerformed
+
+    private void jButtonAbrirProjetoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAbrirProjetoActionPerformed
+        JFileChooser fc = new JFileChooser();
+        fc.setDialogTitle("Escolha o arquivo...");
+        fc.setDialogType(JFileChooser.OPEN_DIALOG);
+        fc.setApproveButtonText("OK");
+        //fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Arquivo de configuração do robo", "acr", "repita");
+        fc.setFileFilter(filter);
+        fc.setMultiSelectionEnabled(false);
+        int resultado = fc.showOpenDialog(fc);
+        if (resultado == JFileChooser.CANCEL_OPTION) {
+            return;
+        }
+
+        File file = fc.getSelectedFile();
+        try {
+            editor = new Editor();
+            editor.setArquivo(file);
+            undoManager = new UndoManager();
+            editor.getjTextAreaScript().getDocument().addUndoableEditListener((UndoableEditEvent e) -> {
+                undoManager.addEdit(e.getEdit());
+            });
+            jTabbedPane.addTab(file.getName().replaceAll("\\..*", ""), null, editor, file.getName().replaceAll("\\..*", ""));
+            jTabbedPane.setSelectedComponent(editor);
+            int i = jTabbedPane.getSelectedIndex();
+            jTabbedPane.setTabComponentAt(i, new ButtonTabComponent(jTabbedPane));
+
+            FileReader reader = new FileReader(file);
+            BufferedReader input = new BufferedReader(reader);
+            String linha;
+            while ((linha = input.readLine()) != null) {
+                editor.getjTextAreaScript().setText(editor.getjTextAreaScript().getText() + linha + "\n");
+            }
+            input.close();
+        } catch (IOException ioe) {
+            System.out.println(ioe);
+        }
+    }//GEN-LAST:event_jButtonAbrirProjetoActionPerformed
+
+    private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
+        localizar = localizar.getInstancia();
+        int i = jTabbedPane.getSelectedIndex();
+        if (i > 0) {
+            Editor editorSelected = (Editor) jTabbedPane.getSelectedComponent();
+            File arquivo = editorSelected.getArquivo();
+
+            if (arquivo == null) {
+                JFileChooser fc = new JFileChooser();
+                fc.setDialogTitle("Salvar em...");
+                fc.setDialogType(JFileChooser.OPEN_DIALOG);
+                fc.setApproveButtonText("OK");
+                //fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("Arquivo de configuração do robo", "acr", "repita");
+                fc.setFileFilter(filter);
+                fc.setMultiSelectionEnabled(false);
+                fc.setSelectedFile(new File(jTabbedPane.getTitleAt(jTabbedPane.getSelectedIndex())));
+                int resultado = fc.showOpenDialog(fc);
+                if (resultado == JFileChooser.CANCEL_OPTION) {
+                    return;
+                }
+
+                arquivo = new File(fc.getSelectedFile().getAbsolutePath() + ".acr");
+                editorSelected.setArquivo(arquivo);
+                jTabbedPane.setTitleAt(jTabbedPane.getSelectedIndex(), arquivo.getName().replaceAll("\\..*", ""));
+            }
+
+            FileWriter write;
+            try {
+                write = new FileWriter(arquivo);
+                editorSelected.getjTextAreaScript().write(write);
+            } catch (IOException ex) {
+                Logger.getLogger(Repita.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Nenhum projeto foi aberto ou iniciado", "Sem projetos", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_jButtonSalvarActionPerformed
+
+    private void jButtonDesfazerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDesfazerActionPerformed
+        int i = jTabbedPane.getSelectedIndex();
+        if (i > 0) {
+            try {
+                undoManager.undo();
+            } catch (CannotUndoException cre) {
+                System.out.println("undo manager limit");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Nenhum projeto foi aberto ou iniciado", "Sem projetos", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_jButtonDesfazerActionPerformed
+
+    private void jButtonRefazerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRefazerActionPerformed
+        int i = jTabbedPane.getSelectedIndex();
+        if (i > 0) {
+            try {
+                undoManager.redo();
+            } catch (CannotRedoException cre) {
+                System.out.println("redo manager limit");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Nenhum projeto foi aberto ou iniciado", "Sem projetos", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_jButtonRefazerActionPerformed
+
+    private void jCheckBoxMenuItemBarraRapidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxMenuItemBarraRapidaActionPerformed
+        jPanelBarraRapida.setEnabled(jCheckBoxMenuItemBarraRapida.isSelected());
+        jPanelBarraRapida.setVisible(jCheckBoxMenuItemBarraRapida.isSelected());
+    }//GEN-LAST:event_jCheckBoxMenuItemBarraRapidaActionPerformed
 
     private void customizeMenuBar(JMenuBar menuBar) {
 
@@ -796,12 +1064,19 @@ public class Repita extends javax.swing.JFrame {
     private UndoManager undoManager;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonAbrirProjeto;
+    private javax.swing.JButton jButtonDesfazer;
+    private javax.swing.JButton jButtonNovoProjeto;
+    private javax.swing.JButton jButtonRefazer;
+    private javax.swing.JButton jButtonSalvar;
+    private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
+    private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItemBarraRapida;
     private javax.swing.JLabel jLabelLogo;
     private javax.swing.JLabel jLabelTitle;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenuArquivo;
     private javax.swing.JMenuBar jMenuBar;
     private javax.swing.JMenu jMenuEditar;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItemAbrirProjeto;
     private javax.swing.JMenuItem jMenuItemColar;
     private javax.swing.JMenuItem jMenuItemCopiar;
@@ -815,8 +1090,9 @@ public class Repita extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItemSair;
     private javax.swing.JMenuItem jMenuItemSalvar;
     private javax.swing.JMenuItem jMenuItemSalvarComo;
+    private javax.swing.JMenuItem jMenuItemSelecionarTudo;
     private javax.swing.JMenuItem jMenuItemSubstituir;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanelBarraRapida;
     private javax.swing.JPanel jPanelImage;
     private javax.swing.JPanel jPanelTelaInicial;
     private javax.swing.JPopupMenu.Separator jSeparator1;
@@ -824,6 +1100,8 @@ public class Repita extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JPopupMenu.Separator jSeparator4;
     private javax.swing.JPopupMenu.Separator jSeparator5;
+    private javax.swing.JSeparator jSeparator6;
+    private javax.swing.JSeparator jSeparator7;
     private javax.swing.JTabbedPane jTabbedPane;
     // End of variables declaration//GEN-END:variables
 }

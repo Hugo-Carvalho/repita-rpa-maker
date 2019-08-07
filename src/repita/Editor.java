@@ -7,12 +7,15 @@ package repita;
 
 import java.io.File;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import telas.TextLineNumber;
+import javax.swing.JTextPane;
+import componentes.TextLineNumber;
+import java.awt.Color;
+import javax.swing.BorderFactory;
+import javax.swing.UIDefaults;
 
 /**
  *
- * @author hugan
+ * @author Hugo Carvalho
  */
 public class Editor extends javax.swing.JPanel {
 
@@ -21,9 +24,25 @@ public class Editor extends javax.swing.JPanel {
      */
     public Editor() {
         initComponents();
+        
+        /*AbstractDocument document = (AbstractDocument) jTextAreaScript.getDocument();
+        CustomDocumentFilter customDocumentFilter = new CustomDocumentFilter(jTextAreaScript);
+        document.setDocumentFilter(customDocumentFilter);*/
 
         TextLineNumber contadorLinhas = new TextLineNumber(jTextAreaScript);
+
         jScrollPane.setRowHeaderView(contadorLinhas);
+
+        Color backgroundColor = new Color(40, 41, 35);
+        UIDefaults defaults = new UIDefaults();
+        defaults.put("TextPane[Enabled].backgroundPainter", backgroundColor);
+        jTextAreaScript.putClientProperty("Nimbus.Overrides", defaults);
+        jTextAreaScript.putClientProperty("Nimbus.Overrides.InheritDefaults", true);
+        jTextAreaScript.setBackground(backgroundColor);
+
+        jTextAreaScript.setBorder(BorderFactory.createEmptyBorder());
+
+        jTextAreaScript.setBorder(BorderFactory.createLineBorder(backgroundColor, 2));
     }
 
     /**
@@ -36,17 +55,15 @@ public class Editor extends javax.swing.JPanel {
     private void initComponents() {
 
         jScrollPane = new javax.swing.JScrollPane();
-        jTextAreaScript = new javax.swing.JTextArea();
+        jTextAreaScript = new javax.swing.JTextPane();
 
         setBackground(new java.awt.Color(40, 41, 35));
 
         jScrollPane.setBackground(new java.awt.Color(40, 41, 35));
 
         jTextAreaScript.setBackground(new java.awt.Color(40, 41, 35));
-        jTextAreaScript.setColumns(20);
-        jTextAreaScript.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
+        jTextAreaScript.setFont(new java.awt.Font("Consolas", 0, 15)); // NOI18N
         jTextAreaScript.setForeground(new java.awt.Color(255, 255, 255));
-        jTextAreaScript.setRows(5);
         jScrollPane.setViewportView(jTextAreaScript);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -54,15 +71,13 @@ public class Editor extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addComponent(jScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 930, Short.MAX_VALUE)
+                .addComponent(jScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 695, Short.MAX_VALUE)
                 .addGap(0, 0, 0))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addComponent(jScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE)
+                .addComponent(jScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 395, Short.MAX_VALUE)
                 .addGap(0, 0, 0))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -71,7 +86,7 @@ public class Editor extends javax.swing.JPanel {
         return jScrollPane;
     }
 
-    public JTextArea getjTextAreaScript() {
+    public JTextPane getjTextAreaScript() {
         return jTextAreaScript;
     }
 
@@ -82,11 +97,11 @@ public class Editor extends javax.swing.JPanel {
     public void setArquivo(File arquivo) {
         this.arquivo = arquivo;
     }
-    
+
     private File arquivo;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane;
-    private javax.swing.JTextArea jTextAreaScript;
+    private javax.swing.JTextPane jTextAreaScript;
     // End of variables declaration//GEN-END:variables
 }
