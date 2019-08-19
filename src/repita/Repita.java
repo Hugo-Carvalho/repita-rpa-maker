@@ -34,6 +34,9 @@ import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
 import componentes.ButtonTabComponent;
+import java.awt.Image;
+import java.net.URL;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -46,11 +49,21 @@ public class Repita extends javax.swing.JFrame {
      */
     public Repita() {
         initComponents();
-        
+
+        URL url = this.getClass().getResource("..//assets//logo-mini.png");
+        Image imagemTitulo = Toolkit.getDefaultToolkit().getImage(url);
+        setIconImage(imagemTitulo);
+
         customizeMenuBar(jMenuBar);
 
         localizar = localizar.getInstancia();
         addListenersLocalizar();
+
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                aprendizagem = new Aprendizagem(Repita.this);
+            }
+        });
     }
 
     /**
@@ -71,6 +84,7 @@ public class Repita extends javax.swing.JFrame {
         jButtonDesfazer = new javax.swing.JButton();
         jButtonRefazer = new javax.swing.JButton();
         jSeparator7 = new javax.swing.JSeparator();
+        jButtonAprendizagem = new javax.swing.JButton();
         jTabbedPane = new javax.swing.JTabbedPane();
         jPanelTelaInicial = new javax.swing.JPanel();
         jPanelImage = new javax.swing.JPanel();
@@ -99,7 +113,9 @@ public class Repita extends javax.swing.JFrame {
         jSeparator5 = new javax.swing.JPopupMenu.Separator();
         jMenuItemLocalizar = new javax.swing.JMenuItem();
         jMenuItemSubstituir = new javax.swing.JMenuItem();
-        jMenu1 = new javax.swing.JMenu();
+        jMenuExecutar = new javax.swing.JMenu();
+        jMenuItemIniciarAprendizagem = new javax.swing.JMenuItem();
+        jMenuJanela = new javax.swing.JMenu();
         jCheckBoxMenuItemBarraRapida = new javax.swing.JCheckBoxMenuItem();
 
         jCheckBoxMenuItem1.setSelected(true);
@@ -156,6 +172,14 @@ public class Repita extends javax.swing.JFrame {
 
         jSeparator7.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
+        jButtonAprendizagem.setBackground(new java.awt.Color(245, 245, 245));
+        jButtonAprendizagem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/aprendizagem.png"))); // NOI18N
+        jButtonAprendizagem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAprendizagemActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelBarraRapidaLayout = new javax.swing.GroupLayout(jPanelBarraRapida);
         jPanelBarraRapida.setLayout(jPanelBarraRapidaLayout);
         jPanelBarraRapidaLayout.setHorizontalGroup(
@@ -175,6 +199,8 @@ public class Repita extends javax.swing.JFrame {
                 .addComponent(jButtonRefazer, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonAprendizagem, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanelBarraRapidaLayout.setVerticalGroup(
@@ -182,6 +208,7 @@ public class Repita extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelBarraRapidaLayout.createSequentialGroup()
                 .addGap(1, 1, 1)
                 .addGroup(jPanelBarraRapidaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButtonAprendizagem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jSeparator7)
                     .addComponent(jButtonRefazer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButtonDesfazer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -238,7 +265,7 @@ public class Repita extends javax.swing.JFrame {
         jPanelTelaInicialLayout.setVerticalGroup(
             jPanelTelaInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelTelaInicialLayout.createSequentialGroup()
-                .addContainerGap(139, Short.MAX_VALUE)
+                .addContainerGap(91, Short.MAX_VALUE)
                 .addComponent(jPanelImage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(111, 111, 111))
         );
@@ -427,8 +454,23 @@ public class Repita extends javax.swing.JFrame {
 
         jMenuBar.add(jMenuEditar);
 
-        jMenu1.setText("Janela");
-        jMenu1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jMenuExecutar.setText("Executar");
+        jMenuExecutar.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+
+        jMenuItemIniciarAprendizagem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItemIniciarAprendizagem.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jMenuItemIniciarAprendizagem.setText("Iniciar Aprendizagem");
+        jMenuItemIniciarAprendizagem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemIniciarAprendizagemActionPerformed(evt);
+            }
+        });
+        jMenuExecutar.add(jMenuItemIniciarAprendizagem);
+
+        jMenuBar.add(jMenuExecutar);
+
+        jMenuJanela.setText("Janela");
+        jMenuJanela.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
 
         jCheckBoxMenuItemBarraRapida.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jCheckBoxMenuItemBarraRapida.setSelected(true);
@@ -438,9 +480,9 @@ public class Repita extends javax.swing.JFrame {
                 jCheckBoxMenuItemBarraRapidaActionPerformed(evt);
             }
         });
-        jMenu1.add(jCheckBoxMenuItemBarraRapida);
+        jMenuJanela.add(jCheckBoxMenuItemBarraRapida);
 
-        jMenuBar.add(jMenu1);
+        jMenuBar.add(jMenuJanela);
 
         setJMenuBar(jMenuBar);
 
@@ -455,7 +497,7 @@ public class Repita extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanelBarraRapida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(0, 0, 0)
                 .addComponent(jTabbedPane))
         );
 
@@ -465,28 +507,7 @@ public class Repita extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItemNovoProjetoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemNovoProjetoActionPerformed
-        editor = new Editor();
-        undoManager = new UndoManager();
-        editor.getjTextAreaScript().getDocument().addUndoableEditListener((UndoableEditEvent e) -> {
-            undoManager.addEdit(e.getEdit());
-        });
-        String tituloProjeto;
-        try {
-            do {
-                tituloProjeto = JOptionPane.showInputDialog(null, "Nome do projeto: ", "Novo projeto", JOptionPane.QUESTION_MESSAGE);
-                if (tituloProjeto.equals("")) {
-                    JOptionPane.showMessageDialog(this, "O projeto precisa de um nome!");
-                } else {
-                    jTabbedPane.addTab(tituloProjeto, null, editor, tituloProjeto);
-
-                    jTabbedPane.setSelectedComponent(editor);
-                    int i = jTabbedPane.getSelectedIndex();
-                    jTabbedPane.setTabComponentAt(i, new ButtonTabComponent(jTabbedPane));
-                }
-            } while (tituloProjeto.equals(""));
-        } catch (NullPointerException e) {
-            System.out.println("Novo projeto cancelado");
-        }
+        this.novo();
     }//GEN-LAST:event_jMenuItemNovoProjetoActionPerformed
 
     private void jMenuItemSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSairActionPerformed
@@ -553,29 +574,11 @@ public class Repita extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemSelecionarTudoActionPerformed
 
     private void jMenuItemDesfazerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemDesfazerActionPerformed
-        int i = jTabbedPane.getSelectedIndex();
-        if (i > 0) {
-            try {
-                undoManager.undo();
-            } catch (CannotUndoException cre) {
-                System.out.println("undo manager limit");
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "Nenhum projeto foi aberto ou iniciado", "Sem projetos", JOptionPane.INFORMATION_MESSAGE);
-        }
+        this.desfazer();
     }//GEN-LAST:event_jMenuItemDesfazerActionPerformed
 
     private void jMenuItemRefazerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemRefazerActionPerformed
-        int i = jTabbedPane.getSelectedIndex();
-        if (i > 0) {
-            try {
-                undoManager.redo();
-            } catch (CannotRedoException cre) {
-                System.out.println("redo manager limit");
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "Nenhum projeto foi aberto ou iniciado", "Sem projetos", JOptionPane.INFORMATION_MESSAGE);
-        }
+        this.refazer();
     }//GEN-LAST:event_jMenuItemRefazerActionPerformed
 
     private void jMenuItemExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemExcluirActionPerformed
@@ -599,42 +602,7 @@ public class Repita extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemLocalizarActionPerformed
 
     private void jMenuItemAbrirProjetoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemAbrirProjetoActionPerformed
-        JFileChooser fc = new JFileChooser();
-        fc.setDialogTitle("Escolha o arquivo...");
-        fc.setDialogType(JFileChooser.OPEN_DIALOG);
-        fc.setApproveButtonText("OK");
-        //fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("Arquivo de configuração do robo", "acr", "repita");
-        fc.setFileFilter(filter);
-        fc.setMultiSelectionEnabled(false);
-        int resultado = fc.showOpenDialog(fc);
-        if (resultado == JFileChooser.CANCEL_OPTION) {
-            return;
-        }
-
-        File file = fc.getSelectedFile();
-        try {
-            editor = new Editor();
-            editor.setArquivo(file);
-            undoManager = new UndoManager();
-            editor.getjTextAreaScript().getDocument().addUndoableEditListener((UndoableEditEvent e) -> {
-                undoManager.addEdit(e.getEdit());
-            });
-            jTabbedPane.addTab(file.getName().replaceAll("\\..*", ""), null, editor, file.getName().replaceAll("\\..*", ""));
-            jTabbedPane.setSelectedComponent(editor);
-            int i = jTabbedPane.getSelectedIndex();
-            jTabbedPane.setTabComponentAt(i, new ButtonTabComponent(jTabbedPane));
-
-            FileReader reader = new FileReader(file);
-            BufferedReader input = new BufferedReader(reader);
-            String linha;
-            while ((linha = input.readLine()) != null) {
-                editor.getjTextAreaScript().setText(editor.getjTextAreaScript().getText() + linha + "\n");
-            }
-            input.close();
-        } catch (IOException ioe) {
-            System.out.println(ioe);
-        }
+        this.abrir();
     }//GEN-LAST:event_jMenuItemAbrirProjetoActionPerformed
 
     private void jMenuItemSubstituirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSubstituirActionPerformed
@@ -648,43 +616,7 @@ public class Repita extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemSubstituirActionPerformed
 
     private void jMenuItemSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSalvarActionPerformed
-        localizar = localizar.getInstancia();
-        int i = jTabbedPane.getSelectedIndex();
-        if (i > 0) {
-            Editor editorSelected = (Editor) jTabbedPane.getSelectedComponent();
-            File arquivo = editorSelected.getArquivo();
-
-            if (arquivo == null) {
-                JFileChooser fc = new JFileChooser();
-                fc.setDialogTitle("Salvar em...");
-                fc.setDialogType(JFileChooser.OPEN_DIALOG);
-                fc.setApproveButtonText("OK");
-                //fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
-                FileNameExtensionFilter filter = new FileNameExtensionFilter("Arquivo de configuração do robo", "acr", "repita");
-                fc.setFileFilter(filter);
-                fc.setMultiSelectionEnabled(false);
-                fc.setSelectedFile(new File(jTabbedPane.getTitleAt(jTabbedPane.getSelectedIndex())));
-                int resultado = fc.showOpenDialog(fc);
-                if (resultado == JFileChooser.CANCEL_OPTION) {
-                    return;
-                }
-
-                arquivo = new File(fc.getSelectedFile().getAbsolutePath() + ".acr");
-                editorSelected.setArquivo(arquivo);
-                jTabbedPane.setTitleAt(jTabbedPane.getSelectedIndex(), arquivo.getName().replaceAll("\\..*", ""));
-            }
-
-            FileWriter write;
-            try {
-                write = new FileWriter(arquivo);
-                editorSelected.getjTextAreaScript().write(write);
-            } catch (IOException ex) {
-                Logger.getLogger(Repita.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-        } else {
-            JOptionPane.showMessageDialog(null, "Nenhum projeto foi aberto ou iniciado", "Sem projetos", JOptionPane.INFORMATION_MESSAGE);
-        }
+        this.salvar();
     }//GEN-LAST:event_jMenuItemSalvarActionPerformed
 
     private void jMenuItemSalvarComoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSalvarComoActionPerformed
@@ -726,6 +658,39 @@ public class Repita extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemSalvarComoActionPerformed
 
     private void jButtonNovoProjetoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNovoProjetoActionPerformed
+        this.novo();
+    }//GEN-LAST:event_jButtonNovoProjetoActionPerformed
+
+    private void jButtonAbrirProjetoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAbrirProjetoActionPerformed
+        this.abrir();
+    }//GEN-LAST:event_jButtonAbrirProjetoActionPerformed
+
+    private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
+        this.salvar();
+    }//GEN-LAST:event_jButtonSalvarActionPerformed
+
+    private void jButtonDesfazerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDesfazerActionPerformed
+        this.desfazer();
+    }//GEN-LAST:event_jButtonDesfazerActionPerformed
+
+    private void jButtonRefazerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRefazerActionPerformed
+        this.refazer();
+    }//GEN-LAST:event_jButtonRefazerActionPerformed
+
+    private void jCheckBoxMenuItemBarraRapidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxMenuItemBarraRapidaActionPerformed
+        jPanelBarraRapida.setEnabled(jCheckBoxMenuItemBarraRapida.isSelected());
+        jPanelBarraRapida.setVisible(jCheckBoxMenuItemBarraRapida.isSelected());
+    }//GEN-LAST:event_jCheckBoxMenuItemBarraRapidaActionPerformed
+
+    private void jButtonAprendizagemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAprendizagemActionPerformed
+        this.aprendizagem();
+    }//GEN-LAST:event_jButtonAprendizagemActionPerformed
+
+    private void jMenuItemIniciarAprendizagemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemIniciarAprendizagemActionPerformed
+        this.aprendizagem();
+    }//GEN-LAST:event_jMenuItemIniciarAprendizagemActionPerformed
+
+    private void novo() {
         editor = new Editor();
         undoManager = new UndoManager();
         editor.getjTextAreaScript().getDocument().addUndoableEditListener((UndoableEditEvent e) -> {
@@ -748,9 +713,9 @@ public class Repita extends javax.swing.JFrame {
         } catch (NullPointerException e) {
             System.out.println("Novo projeto cancelado");
         }
-    }//GEN-LAST:event_jButtonNovoProjetoActionPerformed
-
-    private void jButtonAbrirProjetoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAbrirProjetoActionPerformed
+    }
+    
+    private void abrir() {
         JFileChooser fc = new JFileChooser();
         fc.setDialogTitle("Escolha o arquivo...");
         fc.setDialogType(JFileChooser.OPEN_DIALOG);
@@ -787,9 +752,9 @@ public class Repita extends javax.swing.JFrame {
         } catch (IOException ioe) {
             System.out.println(ioe);
         }
-    }//GEN-LAST:event_jButtonAbrirProjetoActionPerformed
-
-    private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
+    }
+    
+    private void salvar() {
         localizar = localizar.getInstancia();
         int i = jTabbedPane.getSelectedIndex();
         if (i > 0) {
@@ -827,9 +792,9 @@ public class Repita extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(null, "Nenhum projeto foi aberto ou iniciado", "Sem projetos", JOptionPane.INFORMATION_MESSAGE);
         }
-    }//GEN-LAST:event_jButtonSalvarActionPerformed
-
-    private void jButtonDesfazerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDesfazerActionPerformed
+    }
+    
+    private void desfazer() {
         int i = jTabbedPane.getSelectedIndex();
         if (i > 0) {
             try {
@@ -840,9 +805,9 @@ public class Repita extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(null, "Nenhum projeto foi aberto ou iniciado", "Sem projetos", JOptionPane.INFORMATION_MESSAGE);
         }
-    }//GEN-LAST:event_jButtonDesfazerActionPerformed
+    }
 
-    private void jButtonRefazerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRefazerActionPerformed
+    private void refazer() {
         int i = jTabbedPane.getSelectedIndex();
         if (i > 0) {
             try {
@@ -853,12 +818,19 @@ public class Repita extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(null, "Nenhum projeto foi aberto ou iniciado", "Sem projetos", JOptionPane.INFORMATION_MESSAGE);
         }
-    }//GEN-LAST:event_jButtonRefazerActionPerformed
+    }
 
-    private void jCheckBoxMenuItemBarraRapidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxMenuItemBarraRapidaActionPerformed
-        jPanelBarraRapida.setEnabled(jCheckBoxMenuItemBarraRapida.isSelected());
-        jPanelBarraRapida.setVisible(jCheckBoxMenuItemBarraRapida.isSelected());
-    }//GEN-LAST:event_jCheckBoxMenuItemBarraRapidaActionPerformed
+    private void aprendizagem() {
+        int i = jTabbedPane.getSelectedIndex();
+        if (i > 0) {
+            aprendizagem.setVisible(true);
+            Editor editorSelected = (Editor) jTabbedPane.getSelectedComponent();
+            aprendizagem.setEditor(editorSelected);
+            this.setVisible(false);
+        } else {
+            JOptionPane.showMessageDialog(null, "Nenhum projeto foi aberto ou iniciado", "Sem projetos", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
 
     private void customizeMenuBar(JMenuBar menuBar) {
 
@@ -1062,9 +1034,11 @@ public class Repita extends javax.swing.JFrame {
     private Editor editor;
     private Localizar localizar;
     private UndoManager undoManager;
+    private Aprendizagem aprendizagem;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAbrirProjeto;
+    private javax.swing.JButton jButtonAprendizagem;
     private javax.swing.JButton jButtonDesfazer;
     private javax.swing.JButton jButtonNovoProjeto;
     private javax.swing.JButton jButtonRefazer;
@@ -1073,16 +1047,17 @@ public class Repita extends javax.swing.JFrame {
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItemBarraRapida;
     private javax.swing.JLabel jLabelLogo;
     private javax.swing.JLabel jLabelTitle;
-    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenuArquivo;
     private javax.swing.JMenuBar jMenuBar;
     private javax.swing.JMenu jMenuEditar;
+    private javax.swing.JMenu jMenuExecutar;
     private javax.swing.JMenuItem jMenuItemAbrirProjeto;
     private javax.swing.JMenuItem jMenuItemColar;
     private javax.swing.JMenuItem jMenuItemCopiar;
     private javax.swing.JMenuItem jMenuItemDesfazer;
     private javax.swing.JMenuItem jMenuItemExcluir;
     private javax.swing.JMenuItem jMenuItemFecharProjeto;
+    private javax.swing.JMenuItem jMenuItemIniciarAprendizagem;
     private javax.swing.JMenuItem jMenuItemLocalizar;
     private javax.swing.JMenuItem jMenuItemNovoProjeto;
     private javax.swing.JMenuItem jMenuItemRecortar;
@@ -1092,6 +1067,7 @@ public class Repita extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItemSalvarComo;
     private javax.swing.JMenuItem jMenuItemSelecionarTudo;
     private javax.swing.JMenuItem jMenuItemSubstituir;
+    private javax.swing.JMenu jMenuJanela;
     private javax.swing.JPanel jPanelBarraRapida;
     private javax.swing.JPanel jPanelImage;
     private javax.swing.JPanel jPanelTelaInicial;
