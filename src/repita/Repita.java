@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package repita;
 
 import java.awt.Color;
@@ -35,8 +30,12 @@ import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
 import componentes.ButtonTabComponent;
 import java.awt.Image;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.net.URL;
 import javax.swing.SwingUtilities;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 /**
  *
@@ -58,6 +57,7 @@ public class Repita extends javax.swing.JFrame {
 
         localizar = localizar.getInstancia();
         addListenersLocalizar();
+        addListenersJTabbedPane();
 
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
@@ -85,6 +85,7 @@ public class Repita extends javax.swing.JFrame {
         jButtonRefazer = new javax.swing.JButton();
         jSeparator7 = new javax.swing.JSeparator();
         jButtonAprendizagem = new javax.swing.JButton();
+        jButtonExecutar = new javax.swing.JButton();
         jTabbedPane = new javax.swing.JTabbedPane();
         jPanelTelaInicial = new javax.swing.JPanel();
         jPanelImage = new javax.swing.JPanel();
@@ -115,6 +116,7 @@ public class Repita extends javax.swing.JFrame {
         jMenuItemSubstituir = new javax.swing.JMenuItem();
         jMenuExecutar = new javax.swing.JMenu();
         jMenuItemIniciarAprendizagem = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jMenuJanela = new javax.swing.JMenu();
         jCheckBoxMenuItemBarraRapida = new javax.swing.JCheckBoxMenuItem();
 
@@ -180,6 +182,14 @@ public class Repita extends javax.swing.JFrame {
             }
         });
 
+        jButtonExecutar.setBackground(new java.awt.Color(245, 245, 245));
+        jButtonExecutar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/executar.png"))); // NOI18N
+        jButtonExecutar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonExecutarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelBarraRapidaLayout = new javax.swing.GroupLayout(jPanelBarraRapida);
         jPanelBarraRapida.setLayout(jPanelBarraRapidaLayout);
         jPanelBarraRapidaLayout.setHorizontalGroup(
@@ -201,22 +211,24 @@ public class Repita extends javax.swing.JFrame {
                 .addComponent(jSeparator7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonAprendizagem, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonExecutar, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanelBarraRapidaLayout.setVerticalGroup(
             jPanelBarraRapidaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelBarraRapidaLayout.createSequentialGroup()
+            .addGroup(jPanelBarraRapidaLayout.createSequentialGroup()
                 .addGap(1, 1, 1)
-                .addGroup(jPanelBarraRapidaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButtonAprendizagem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jSeparator7)
-                    .addComponent(jButtonRefazer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonDesfazer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jSeparator6, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonAbrirProjeto, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonNovoProjeto, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonSalvar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(1, 1, 1))
+                .addGroup(jPanelBarraRapidaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonExecutar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonAprendizagem, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jSeparator7, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButtonRefazer, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonDesfazer, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jSeparator6)
+                    .addComponent(jButtonAbrirProjeto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonNovoProjeto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonSalvar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
         jTabbedPane.setBackground(new java.awt.Color(40, 41, 35));
@@ -265,7 +277,7 @@ public class Repita extends javax.swing.JFrame {
         jPanelTelaInicialLayout.setVerticalGroup(
             jPanelTelaInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelTelaInicialLayout.createSequentialGroup()
-                .addContainerGap(91, Short.MAX_VALUE)
+                .addContainerGap(67, Short.MAX_VALUE)
                 .addComponent(jPanelImage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(111, 111, 111))
         );
@@ -467,6 +479,16 @@ public class Repita extends javax.swing.JFrame {
         });
         jMenuExecutar.add(jMenuItemIniciarAprendizagem);
 
+        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F6, 0));
+        jMenuItem1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jMenuItem1.setText("Executar");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenuExecutar.add(jMenuItem1);
+
         jMenuBar.add(jMenuExecutar);
 
         jMenuJanela.setText("Janela");
@@ -652,6 +674,9 @@ public class Repita extends javax.swing.JFrame {
                 Logger.getLogger(Repita.class.getName()).log(Level.SEVERE, null, ex);
             }
 
+            jButtonSalvar.setEnabled(false);
+            editorSelected.setSalvo(true);
+
         } else {
             JOptionPane.showMessageDialog(null, "Nenhum projeto foi aberto ou iniciado", "Sem projetos", JOptionPane.INFORMATION_MESSAGE);
         }
@@ -690,8 +715,17 @@ public class Repita extends javax.swing.JFrame {
         this.aprendizagem();
     }//GEN-LAST:event_jMenuItemIniciarAprendizagemActionPerformed
 
+    private void jButtonExecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExecutarActionPerformed
+        this.executar();
+    }//GEN-LAST:event_jButtonExecutarActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        this.executar();
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
     private void novo() {
         editor = new Editor();
+        addListenersEditor();
         undoManager = new UndoManager();
         editor.getjTextAreaScript().getDocument().addUndoableEditListener((UndoableEditEvent e) -> {
             undoManager.addEdit(e.getEdit());
@@ -714,7 +748,7 @@ public class Repita extends javax.swing.JFrame {
             System.out.println("Novo projeto cancelado");
         }
     }
-    
+
     private void abrir() {
         JFileChooser fc = new JFileChooser();
         fc.setDialogTitle("Escolha o arquivo...");
@@ -732,6 +766,7 @@ public class Repita extends javax.swing.JFrame {
         File file = fc.getSelectedFile();
         try {
             editor = new Editor();
+            addListenersEditor();
             editor.setArquivo(file);
             undoManager = new UndoManager();
             editor.getjTextAreaScript().getDocument().addUndoableEditListener((UndoableEditEvent e) -> {
@@ -753,9 +788,8 @@ public class Repita extends javax.swing.JFrame {
             System.out.println(ioe);
         }
     }
-    
+
     private void salvar() {
-        localizar = localizar.getInstancia();
         int i = jTabbedPane.getSelectedIndex();
         if (i > 0) {
             Editor editorSelected = (Editor) jTabbedPane.getSelectedComponent();
@@ -789,11 +823,14 @@ public class Repita extends javax.swing.JFrame {
                 Logger.getLogger(Repita.class.getName()).log(Level.SEVERE, null, ex);
             }
 
+            jButtonSalvar.setEnabled(false);
+            editorSelected.setSalvo(true);
+
         } else {
             JOptionPane.showMessageDialog(null, "Nenhum projeto foi aberto ou iniciado", "Sem projetos", JOptionPane.INFORMATION_MESSAGE);
         }
     }
-    
+
     private void desfazer() {
         int i = jTabbedPane.getSelectedIndex();
         if (i > 0) {
@@ -827,6 +864,15 @@ public class Repita extends javax.swing.JFrame {
             Editor editorSelected = (Editor) jTabbedPane.getSelectedComponent();
             aprendizagem.setEditor(editorSelected);
             this.setVisible(false);
+        } else {
+            JOptionPane.showMessageDialog(null, "Nenhum projeto foi aberto ou iniciado", "Sem projetos", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+
+    private void executar() {
+        int i = jTabbedPane.getSelectedIndex();
+        if (i > 0) {
+            //code execution
         } else {
             JOptionPane.showMessageDialog(null, "Nenhum projeto foi aberto ou iniciado", "Sem projetos", JOptionPane.INFORMATION_MESSAGE);
         }
@@ -977,6 +1023,41 @@ public class Repita extends javax.swing.JFrame {
         });
     }
 
+    private void addListenersEditor() {
+        editor.getjTextAreaScript().addKeyListener(new KeyListener() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                jButtonSalvar.setEnabled(true);
+                Editor editorSelected = (Editor) jTabbedPane.getSelectedComponent();
+                editorSelected.setSalvo(false);
+            }
+
+            @Override
+            public void keyTyped(KeyEvent ke) {
+
+            }
+
+            @Override
+            public void keyReleased(KeyEvent ke) {
+
+            }
+        });
+    }
+
+    private void addListenersJTabbedPane() {
+        jTabbedPane.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                Editor editorSelected = (Editor) jTabbedPane.getSelectedComponent();
+                if(editorSelected.isSalvo()){
+                    jButtonSalvar.setEnabled(false);
+                } else {
+                    jButtonSalvar.setEnabled(true);
+                }
+            }
+        });
+    }
+
     private void changeComponentColors(Component comp) {
         comp.setBackground(Color.white);
         comp.setForeground(Color.black);
@@ -1040,6 +1121,7 @@ public class Repita extends javax.swing.JFrame {
     private javax.swing.JButton jButtonAbrirProjeto;
     private javax.swing.JButton jButtonAprendizagem;
     private javax.swing.JButton jButtonDesfazer;
+    private javax.swing.JButton jButtonExecutar;
     private javax.swing.JButton jButtonNovoProjeto;
     private javax.swing.JButton jButtonRefazer;
     private javax.swing.JButton jButtonSalvar;
@@ -1051,6 +1133,7 @@ public class Repita extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar;
     private javax.swing.JMenu jMenuEditar;
     private javax.swing.JMenu jMenuExecutar;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItemAbrirProjeto;
     private javax.swing.JMenuItem jMenuItemColar;
     private javax.swing.JMenuItem jMenuItemCopiar;

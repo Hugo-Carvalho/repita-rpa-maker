@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package repita;
 
 import java.io.File;
@@ -10,6 +5,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import componentes.TextLineNumber;
 import java.awt.Color;
+import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.UIDefaults;
 
@@ -64,6 +60,11 @@ public class Editor extends javax.swing.JPanel {
         jTextAreaScript.setBackground(new java.awt.Color(40, 41, 35));
         jTextAreaScript.setFont(new java.awt.Font("Consolas", 0, 15)); // NOI18N
         jTextAreaScript.setForeground(new java.awt.Color(255, 255, 255));
+        jTextAreaScript.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextAreaScriptKeyPressed(evt);
+            }
+        });
         jScrollPane.setViewportView(jTextAreaScript);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -82,6 +83,10 @@ public class Editor extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jTextAreaScriptKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextAreaScriptKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextAreaScriptKeyPressed
+
     public JScrollPane getjScrollPane() {
         return jScrollPane;
     }
@@ -98,7 +103,16 @@ public class Editor extends javax.swing.JPanel {
         this.arquivo = arquivo;
     }
 
+    public boolean isSalvo() {
+        return salvo;
+    }
+
+    public void setSalvo(boolean salvo) {
+        this.salvo = salvo;
+    }
+
     private File arquivo;
+    private boolean salvo;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane;
