@@ -1048,11 +1048,14 @@ public class Repita extends javax.swing.JFrame {
         jTabbedPane.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                Editor editorSelected = (Editor) jTabbedPane.getSelectedComponent();
-                if(editorSelected.isSalvo()){
-                    jButtonSalvar.setEnabled(false);
-                } else {
-                    jButtonSalvar.setEnabled(true);
+                int i = jTabbedPane.getSelectedIndex();
+                if (i > 0) {
+                    Editor editorSelected = (Editor) jTabbedPane.getSelectedComponent();
+                    if (editorSelected.isSalvo()) {
+                        jButtonSalvar.setEnabled(false);
+                    } else {
+                        jButtonSalvar.setEnabled(true);
+                    }
                 }
             }
         });
