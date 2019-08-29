@@ -12,11 +12,13 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
-import javax.swing.JList;
 import org.jnativehook.GlobalScreen;
 import org.jnativehook.NativeHookException;
 import org.jnativehook.NativeInputEvent;
@@ -44,10 +46,21 @@ public class Aprendizagem extends javax.swing.JFrame implements NativeKeyListene
         this.script = "";
         this.list = new DefaultListModel();
 
-        initComponents();
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        Date hora = Calendar.getInstance().getTime();
+        String dataFormatada = sdf.format(hora);
+
+        this.segUltimaAcao = ((Integer.parseInt("" + dataFormatada.charAt(0) + dataFormatada.charAt(1)) * 60) * 60)
+                + (Integer.parseInt("" + dataFormatada.charAt(3) + dataFormatada.charAt(4)) * 60) + Integer.parseInt("" + dataFormatada.charAt(6) + dataFormatada.charAt(7));
+
+        this.registerPause = true;
         
+        initComponents();
+
+        this.jPanelOpcoes.setVisible(false);
         this.jPanelParaSendKeys.setVisible(false);
-        this.setSize(348, 170);
+        
+        this.jButtonPause.setEnabled(false);
 
         URL url = this.getClass().getResource("..//assets//logo-mini.png");
         Image imagemTitulo = Toolkit.getDefaultToolkit().getImage(url);
@@ -75,6 +88,9 @@ public class Aprendizagem extends javax.swing.JFrame implements NativeKeyListene
         GlobalScreen.setEventDispatcher(new SwingDispatchService());
 
         GlobalScreen.addNativeKeyListener(this);
+        GlobalScreen.addNativeMouseListener(this);
+
+        this.setSize(336, jPanelTop.getSize().height + jPanelBottom.getSize().height);
     }
 
     /**
@@ -86,10 +102,12 @@ public class Aprendizagem extends javax.swing.JFrame implements NativeKeyListene
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel = new javax.swing.JPanel();
-        jButtonResumePause = new javax.swing.JButton();
+        jPanelTop = new javax.swing.JPanel();
+        jButtonResume = new javax.swing.JButton();
         jComboBoxAcoes = new javax.swing.JComboBox();
-        jPanel1 = new javax.swing.JPanel();
+        jButtonOpcoes = new javax.swing.JButton();
+        jButtonPause = new javax.swing.JButton();
+        jPanelBottom = new javax.swing.JPanel();
         jScrollPaneAcoes = new javax.swing.JScrollPane();
         jListAcoes = new javax.swing.JList();
         jButtonConcluir = new javax.swing.JButton();
@@ -98,11 +116,13 @@ public class Aprendizagem extends javax.swing.JFrame implements NativeKeyListene
         jScrollPaneSendKeys = new javax.swing.JScrollPane();
         jEditorPaneSendKeys = new javax.swing.JEditorPane();
         jButtonSendKeys = new javax.swing.JButton();
+        jPanelOpcoes = new javax.swing.JPanel();
+        jCheckBoxSetTimeOutAutomatic = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Repita RPA - Aprendizagem");
         setUndecorated(true);
-        setPreferredSize(new java.awt.Dimension(332, 284));
+        setPreferredSize(new java.awt.Dimension(336, 363));
         addWindowFocusListener(new java.awt.event.WindowFocusListener() {
             public void windowGainedFocus(java.awt.event.WindowEvent evt) {
                 formWindowGainedFocus(evt);
@@ -117,15 +137,14 @@ public class Aprendizagem extends javax.swing.JFrame implements NativeKeyListene
             }
         });
 
-        jPanel.setBackground(new java.awt.Color(245, 245, 245));
-        jPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153), 2));
+        jPanelTop.setBackground(new java.awt.Color(245, 245, 245));
+        jPanelTop.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153), 2));
 
-        jButtonResumePause.setBackground(new java.awt.Color(245, 245, 245));
-        jButtonResumePause.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/executar.png"))); // NOI18N
-        jButtonResumePause.setText("Resume");
-        jButtonResumePause.addActionListener(new java.awt.event.ActionListener() {
+        jButtonResume.setBackground(new java.awt.Color(245, 245, 245));
+        jButtonResume.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/executar.png"))); // NOI18N
+        jButtonResume.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonResumePauseActionPerformed(evt);
+                jButtonResumeActionPerformed(evt);
             }
         });
 
@@ -137,31 +156,54 @@ public class Aprendizagem extends javax.swing.JFrame implements NativeKeyListene
             }
         });
 
-        javax.swing.GroupLayout jPanelLayout = new javax.swing.GroupLayout(jPanel);
-        jPanel.setLayout(jPanelLayout);
-        jPanelLayout.setHorizontalGroup(
-            jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelLayout.createSequentialGroup()
+        jButtonOpcoes.setBackground(new java.awt.Color(245, 245, 245));
+        jButtonOpcoes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/configurações.png"))); // NOI18N
+        jButtonOpcoes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonOpcoesActionPerformed(evt);
+            }
+        });
+
+        jButtonPause.setBackground(new java.awt.Color(245, 245, 245));
+        jButtonPause.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/parar.png"))); // NOI18N
+        jButtonPause.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonPauseActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanelTopLayout = new javax.swing.GroupLayout(jPanelTop);
+        jPanelTop.setLayout(jPanelTopLayout);
+        jPanelTopLayout.setHorizontalGroup(
+            jPanelTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelTopLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jComboBoxAcoes, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
-                .addComponent(jButtonResumePause)
+                .addComponent(jComboBoxAcoes, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(14, 14, 14)
+                .addComponent(jButtonOpcoes, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButtonPause, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButtonResume, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
-        jPanelLayout.setVerticalGroup(
-            jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelLayout.createSequentialGroup()
+        jPanelTopLayout.setVerticalGroup(
+            jPanelTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelTopLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBoxAcoes, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonResumePause, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanelTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButtonPause, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanelTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jComboBoxAcoes, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButtonResume, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButtonOpcoes, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel1.setBackground(new java.awt.Color(40, 41, 35));
-        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153), 2));
+        jPanelBottom.setBackground(new java.awt.Color(40, 41, 35));
+        jPanelBottom.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153), 2));
 
-        jScrollPaneAcoes.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Lista de ações", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 13), new java.awt.Color(255, 255, 255))); // NOI18N
+        jScrollPaneAcoes.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Lista de ações", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(255, 255, 255))); // NOI18N
 
         jListAcoes.setBackground(new java.awt.Color(40, 41, 35));
         jListAcoes.setFont(new java.awt.Font("Consolas", 0, 13)); // NOI18N
@@ -185,26 +227,26 @@ public class Aprendizagem extends javax.swing.JFrame implements NativeKeyListene
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanelBottomLayout = new javax.swing.GroupLayout(jPanelBottom);
+        jPanelBottom.setLayout(jPanelBottomLayout);
+        jPanelBottomLayout.setHorizontalGroup(
+            jPanelBottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelBottomLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPaneAcoes, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanelBottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButtonConcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonFechar, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        jPanelBottomLayout.setVerticalGroup(
+            jPanelBottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(jPanelBottomLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGroup(jPanelBottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jScrollPaneAcoes, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGroup(jPanelBottomLayout.createSequentialGroup()
                         .addComponent(jButtonFechar, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(8, 8, 8)
                         .addComponent(jButtonConcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -230,7 +272,7 @@ public class Aprendizagem extends javax.swing.JFrame implements NativeKeyListene
             jPanelParaSendKeysLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelParaSendKeysLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPaneSendKeys)
+                .addComponent(jScrollPaneSendKeys, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonSendKeys, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -238,31 +280,57 @@ public class Aprendizagem extends javax.swing.JFrame implements NativeKeyListene
         jPanelParaSendKeysLayout.setVerticalGroup(
             jPanelParaSendKeysLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelParaSendKeysLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addComponent(jScrollPaneSendKeys, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelParaSendKeysLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addComponent(jButtonSendKeys)
                 .addGap(44, 44, 44))
+        );
+
+        jPanelOpcoes.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153), 2));
+
+        jCheckBoxSetTimeOutAutomatic.setSelected(true);
+        jCheckBoxSetTimeOutAutomatic.setText("Set timeout automático");
+
+        javax.swing.GroupLayout jPanelOpcoesLayout = new javax.swing.GroupLayout(jPanelOpcoes);
+        jPanelOpcoes.setLayout(jPanelOpcoesLayout);
+        jPanelOpcoesLayout.setHorizontalGroup(
+            jPanelOpcoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelOpcoesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jCheckBoxSetTimeOutAutomatic)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanelOpcoesLayout.setVerticalGroup(
+            jPanelOpcoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelOpcoesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jCheckBoxSetTimeOutAutomatic)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanelTop, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanelBottom, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanelParaSendKeys, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanelOpcoes, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanelTop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(jPanelParaSendKeys, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanelOpcoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanelParaSendKeys, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(jPanelBottom, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0))
         );
 
         pack();
@@ -301,27 +369,45 @@ public class Aprendizagem extends javax.swing.JFrame implements NativeKeyListene
             Logger.getLogger(Aprendizagem.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        jButtonResumePause.setEnabled(true);
+        jButtonResume.setEnabled(true);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        Date hora = Calendar.getInstance().getTime();
+        String dataFormatada = sdf.format(hora);
+
+        this.segInterno = ((Integer.parseInt("" + dataFormatada.charAt(0) + dataFormatada.charAt(1)) * 60) * 60)
+                + (Integer.parseInt("" + dataFormatada.charAt(3) + dataFormatada.charAt(4)) * 60) + Integer.parseInt("" + dataFormatada.charAt(6) + dataFormatada.charAt(7));
     }//GEN-LAST:event_formWindowGainedFocus
 
     private void formWindowLostFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowLostFocus
-        if (this.isVisible()) {
-            try {
-                GlobalScreen.registerNativeHook();
-            } catch (NativeHookException ex) {
-                System.err.println("There was a problem registering the native hook.");
-                System.err.println(ex.getMessage());
-                ex.printStackTrace();
+        if (!registerPause) {
+            if (this.isVisible()) {
+                try {
+                    GlobalScreen.registerNativeHook();
+                } catch (NativeHookException ex) {
+                    System.err.println("There was a problem registering the native hook.");
+                    System.err.println(ex.getMessage());
+                    ex.printStackTrace();
 
-                System.exit(1);
+                    System.exit(1);
+                }
             }
-        }
 
-        jButtonResumePause.setEnabled(false);
+            jButtonResume.setEnabled(false);
+
+            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+            Date hora = Calendar.getInstance().getTime();
+            String dataFormatada = sdf.format(hora);
+
+            this.segUltimaAcao = ((Integer.parseInt("" + dataFormatada.charAt(0) + dataFormatada.charAt(1)) * 60) * 60)
+                    + (Integer.parseInt("" + dataFormatada.charAt(3) + dataFormatada.charAt(4)) * 60) + Integer.parseInt("" + dataFormatada.charAt(6) + dataFormatada.charAt(7));
+        }
     }//GEN-LAST:event_formWindowLostFocus
 
-    private void jButtonResumePauseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonResumePauseActionPerformed
+    private void jButtonResumeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonResumeActionPerformed
         if (!GlobalScreen.isNativeHookRegistered()) {
+            this.registerPause = false;
+            this.jButtonPause.setEnabled(true);
             Robot robot;
             try {
                 robot = new Robot();
@@ -334,19 +420,27 @@ public class Aprendizagem extends javax.swing.JFrame implements NativeKeyListene
             } catch (AWTException ex) {
                 Logger.getLogger(Aprendizagem.class.getName()).log(Level.SEVERE, null, ex);
             }
-            jButtonResumePause.setEnabled(false);
+            jButtonResume.setEnabled(false);
+
+            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+            Date hora = Calendar.getInstance().getTime();
+            String dataFormatada = sdf.format(hora);
+
+            this.segUltimaAcao = ((Integer.parseInt("" + dataFormatada.charAt(0) + dataFormatada.charAt(1)) * 60) * 60)
+                    + (Integer.parseInt("" + dataFormatada.charAt(3) + dataFormatada.charAt(4)) * 60) + Integer.parseInt("" + dataFormatada.charAt(6) + dataFormatada.charAt(7));
         }
-    }//GEN-LAST:event_jButtonResumePauseActionPerformed
+    }//GEN-LAST:event_jButtonResumeActionPerformed
 
     private void jComboBoxAcoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxAcoesActionPerformed
-        switch(jComboBoxAcoes.getSelectedIndex()){
+        switch (jComboBoxAcoes.getSelectedIndex()) {
             case 0:
+                this.setSize(336, jPanelTop.getSize().height + jPanelBottom.getSize().height);
                 this.jPanelParaSendKeys.setVisible(false);
-                this.setSize(348, 170);
                 break;
             case 1:
-                this.setSize(348, 290);
+                this.setSize(336, jPanelTop.getSize().height + jPanelParaSendKeys.getPreferredSize().height + jPanelBottom.getSize().height);
                 this.jPanelParaSendKeys.setVisible(true);
+                this.jPanelOpcoes.setVisible(false);
                 break;
         }
     }//GEN-LAST:event_jComboBoxAcoesActionPerformed
@@ -358,7 +452,7 @@ public class Aprendizagem extends javax.swing.JFrame implements NativeKeyListene
         } catch (NativeHookException ex) {
             Logger.getLogger(Aprendizagem.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         this.script = "";
         this.list.removeAllElements();
         this.jEditorPaneSendKeys.setText("");
@@ -366,9 +460,30 @@ public class Aprendizagem extends javax.swing.JFrame implements NativeKeyListene
         this.setVisible(false);
     }//GEN-LAST:event_jButtonFecharActionPerformed
 
+    private void jButtonOpcoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonOpcoesActionPerformed
+        if (jPanelOpcoes.isVisible()) {
+            jPanelOpcoes.setVisible(false);
+            this.setSize(336, jPanelTop.getSize().height + jPanelBottom.getSize().height);
+        } else {
+            jComboBoxAcoes.setSelectedIndex(0);
+            jPanelOpcoes.setVisible(true);
+            this.setSize(336, jPanelTop.getSize().height + jPanelOpcoes.getPreferredSize().height + jPanelBottom.getSize().height);
+        }
+    }//GEN-LAST:event_jButtonOpcoesActionPerformed
+
     private void jButtonSendKeysActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSendKeysActionPerformed
+        if (jCheckBoxSetTimeOutAutomatic.isSelected()) {
+
+            script += "robot.delay(" + ((this.segInterno - this.segUltimaAcao) * 1000) + ");\n";
+
+            list.addElement("Delay - " + ((this.segInterno - this.segUltimaAcao) * 1000));
+            int index = jListAcoes.getSelectedIndex();
+            jListAcoes.setSelectedIndex(index + 1);
+            jListAcoes.ensureIndexIsVisible(index + 1);
+        }
+
         script += "// classe para envio de input keys\n"
-        + "new SendKeys(robot, \"" + jEditorPaneSendKeys.getText() + "\");\n";
+                + "new SendKeys(robot, \"" + jEditorPaneSendKeys.getText() + "\");\n";
 
         try {
             //Clean up the native hook.
@@ -408,23 +523,43 @@ public class Aprendizagem extends javax.swing.JFrame implements NativeKeyListene
         this.jEditorPaneSendKeys.setText("");
     }//GEN-LAST:event_jButtonSendKeysActionPerformed
 
+    private void jButtonPauseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPauseActionPerformed
+        try {
+            //Clean up the native hook.
+            GlobalScreen.unregisterNativeHook();
+        } catch (NativeHookException ex) {
+            Logger.getLogger(Aprendizagem.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        jButtonResume.setEnabled(true);
+        this.registerPause = true;
+        this.jButtonPause.setEnabled(false);
+    }//GEN-LAST:event_jButtonPauseActionPerformed
+
     private static Point point;
-    private JFrame parent;
+    private final JFrame parent;
     private Editor editor;
     private String script;
-    private DefaultListModel list;
+    private final DefaultListModel list;
+    private long segUltimaAcao;
+    private long segInterno;
+    private boolean registerPause;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonConcluir;
     private javax.swing.JButton jButtonFechar;
-    private javax.swing.JButton jButtonResumePause;
+    private javax.swing.JButton jButtonOpcoes;
+    private javax.swing.JButton jButtonPause;
+    private javax.swing.JButton jButtonResume;
     private javax.swing.JButton jButtonSendKeys;
+    private javax.swing.JCheckBox jCheckBoxSetTimeOutAutomatic;
     private javax.swing.JComboBox jComboBoxAcoes;
     private javax.swing.JEditorPane jEditorPaneSendKeys;
     private javax.swing.JList jListAcoes;
-    private javax.swing.JPanel jPanel;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanelBottom;
+    private javax.swing.JPanel jPanelOpcoes;
     private javax.swing.JPanel jPanelParaSendKeys;
+    private javax.swing.JPanel jPanelTop;
     private javax.swing.JScrollPane jScrollPaneAcoes;
     private javax.swing.JScrollPane jScrollPaneSendKeys;
     // End of variables declaration//GEN-END:variables
@@ -439,11 +574,28 @@ public class Aprendizagem extends javax.swing.JFrame implements NativeKeyListene
 
     @Override
     public void nativeKeyTyped(NativeKeyEvent nke) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void nativeKeyPressed(NativeKeyEvent nke) {
+        if (jCheckBoxSetTimeOutAutomatic.isSelected()) {
+            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+            Date hora = Calendar.getInstance().getTime();
+            String dataFormatada = sdf.format(hora);
+
+            long segAtual = ((Integer.parseInt("" + dataFormatada.charAt(0) + dataFormatada.charAt(1)) * 60) * 60)
+                    + (Integer.parseInt("" + dataFormatada.charAt(3) + dataFormatada.charAt(4)) * 60) + Integer.parseInt("" + dataFormatada.charAt(6) + dataFormatada.charAt(7));
+
+            script += "robot.delay(" + ((segAtual - this.segUltimaAcao) * 1000) + ");\n";
+
+            list.addElement("Delay - " + ((segAtual - this.segUltimaAcao) * 1000));
+            int index = jListAcoes.getSelectedIndex();
+            jListAcoes.setSelectedIndex(index + 1);
+            jListAcoes.ensureIndexIsVisible(index + 1);
+
+            this.segUltimaAcao = segAtual;
+        }
+
         if (createAwtKeyEvent(nke).getKeyCode() != KeyEvent.VK_UNDEFINED) {
             script += "robot.keyPress(" + createAwtKeyEvent(nke).getKeyCode() + ");\n"
                     + "robot.delay(10);\n";
@@ -451,7 +603,7 @@ public class Aprendizagem extends javax.swing.JFrame implements NativeKeyListene
 
         list.addElement("Press key - " + createAwtKeyEvent(nke).getKeyCode());
         int index = jListAcoes.getSelectedIndex();
-        jListAcoes.setSelectedIndex(index + 1); 
+        jListAcoes.setSelectedIndex(index + 1);
         jListAcoes.ensureIndexIsVisible(index + 1);
     }
 
@@ -459,12 +611,12 @@ public class Aprendizagem extends javax.swing.JFrame implements NativeKeyListene
     public void nativeKeyReleased(NativeKeyEvent nke) {
         if (createAwtKeyEvent(nke).getKeyCode() != KeyEvent.VK_UNDEFINED) {
             script += "robot.keyRelease(" + createAwtKeyEvent(nke).getKeyCode() + ");\n";
-        }
 
-        list.addElement("Release key - " + createAwtKeyEvent(nke).getKeyCode());
-        int index = jListAcoes.getSelectedIndex();
-        jListAcoes.setSelectedIndex(index + 1); 
-        jListAcoes.ensureIndexIsVisible(index + 1);
+            list.addElement("Release key - " + createAwtKeyEvent(nke).getKeyCode());
+            int index = jListAcoes.getSelectedIndex();
+            jListAcoes.setSelectedIndex(index + 1);
+            jListAcoes.ensureIndexIsVisible(index + 1);
+        }
     }
 
     private KeyEvent createAwtKeyEvent(NativeKeyEvent e) {
@@ -934,26 +1086,61 @@ public class Aprendizagem extends javax.swing.JFrame implements NativeKeyListene
 
     @Override
     public void nativeMouseClicked(NativeMouseEvent nme) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (jCheckBoxSetTimeOutAutomatic.isSelected()) {
+            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+            Date hora = Calendar.getInstance().getTime();
+            String dataFormatada = sdf.format(hora);
+
+            long segAtual = ((Integer.parseInt("" + dataFormatada.charAt(0) + dataFormatada.charAt(1)) * 60) * 60)
+                    + (Integer.parseInt("" + dataFormatada.charAt(3) + dataFormatada.charAt(4)) * 60) + Integer.parseInt("" + dataFormatada.charAt(6) + dataFormatada.charAt(7));
+
+            script += "robot.delay(" + ((segAtual - this.segUltimaAcao) * 1000) + ");\n";
+
+            list.addElement("Delay - " + ((segAtual - this.segUltimaAcao) * 1000));
+            int index = jListAcoes.getSelectedIndex();
+            jListAcoes.setSelectedIndex(index + 1);
+            jListAcoes.ensureIndexIsVisible(index + 1);
+
+            this.segUltimaAcao = segAtual;
+        }
+
+        script += "robot.mouseMove(" + nme.getX() + ", " + nme.getY() + ");\n"
+                + "robot.mousePress(" + convertButtonToButtonMask(nme.getButton()) + ");\n"
+                + "robot.mouseRelease(" + convertButtonToButtonMask(nme.getButton()) + ");\n";
+
+        list.addElement("Move mouse - " + nme.getX() + ", " + nme.getY());
+        list.addElement("Clicked mouse - botão " + nme.getButton());
+        int index = jListAcoes.getSelectedIndex();
+        jListAcoes.setSelectedIndex(index + 2);
+        jListAcoes.ensureIndexIsVisible(index + 2);
     }
 
     @Override
     public void nativeMousePressed(NativeMouseEvent nme) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void nativeMouseReleased(NativeMouseEvent nme) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void nativeMouseMoved(NativeMouseEvent nme) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void nativeMouseDragged(NativeMouseEvent nme) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private static int convertButtonToButtonMask(int button) {
+        switch (button) {
+            case 1:
+                return InputEvent.BUTTON1_MASK;
+            case 2:
+                return InputEvent.BUTTON3_MASK;
+            case 3:
+                return InputEvent.BUTTON2_MASK;
+            default:
+                throw new IllegalArgumentException();
+        }
     }
 }
