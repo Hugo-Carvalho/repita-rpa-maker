@@ -29,7 +29,9 @@ import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
 import componentes.ButtonTabComponent;
+import java.awt.AWTException;
 import java.awt.Image;
+import java.awt.Robot;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.net.URL;
@@ -47,11 +49,13 @@ public class Repita extends javax.swing.JFrame {
      * Creates new form Repita
      */
     public Repita() {
-        initComponents();
+        this.setExtendedState(MAXIMIZED_BOTH);
 
         URL url = this.getClass().getResource("..//assets//logo-mini.png");
         Image imagemTitulo = Toolkit.getDefaultToolkit().getImage(url);
         setIconImage(imagemTitulo);
+        
+        initComponents();
 
         customizeMenuBar(jMenuBar);
 
@@ -469,7 +473,7 @@ public class Repita extends javax.swing.JFrame {
         jMenuExecutar.setText("Executar");
         jMenuExecutar.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
 
-        jMenuItemIniciarAprendizagem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItemIniciarAprendizagem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
         jMenuItemIniciarAprendizagem.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jMenuItemIniciarAprendizagem.setText("Iniciar Aprendizagem");
         jMenuItemIniciarAprendizagem.addActionListener(new java.awt.event.ActionListener() {
@@ -860,10 +864,25 @@ public class Repita extends javax.swing.JFrame {
     private void aprendizagem() {
         int i = jTabbedPane.getSelectedIndex();
         if (i > 0) {
-            aprendizagem.setVisible(true);
-            Editor editorSelected = (Editor) jTabbedPane.getSelectedComponent();
-            aprendizagem.setEditor(editorSelected);
-            this.setVisible(false);
+            try {
+                this.setVisible(false);
+                
+                Robot robot = new Robot();
+                
+                robot.delay(100);
+                robot.keyPress(KeyEvent.VK_WINDOWS);
+                robot.keyPress(KeyEvent.VK_D);
+                robot.delay(10);
+                robot.keyRelease(KeyEvent.VK_WINDOWS);
+                robot.keyRelease(KeyEvent.VK_D);
+
+                robot.delay(100);
+                aprendizagem.setVisible(true);
+                Editor editorSelected = (Editor) jTabbedPane.getSelectedComponent();
+                aprendizagem.setEditor(editorSelected);
+            } catch (AWTException ex) {
+                Logger.getLogger(Aprendizagem.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } else {
             JOptionPane.showMessageDialog(null, "Nenhum projeto foi aberto ou iniciado", "Sem projetos", JOptionPane.INFORMATION_MESSAGE);
         }

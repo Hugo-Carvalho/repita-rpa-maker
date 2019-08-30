@@ -19,6 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import org.jnativehook.GlobalScreen;
 import org.jnativehook.NativeHookException;
 import org.jnativehook.NativeInputEvent;
@@ -54,12 +55,15 @@ public class Aprendizagem extends javax.swing.JFrame implements NativeKeyListene
                 + (Integer.parseInt("" + dataFormatada.charAt(3) + dataFormatada.charAt(4)) * 60) + Integer.parseInt("" + dataFormatada.charAt(6) + dataFormatada.charAt(7));
 
         this.registerPause = true;
-        
+
         initComponents();
+        
+        this.setAlwaysOnTop (true);
 
         this.jPanelOpcoes.setVisible(false);
         this.jPanelParaSendKeys.setVisible(false);
-        
+        this.jPanelParaSetTimeout.setVisible(false);
+
         this.jButtonPause.setEnabled(false);
 
         URL url = this.getClass().getResource("..//assets//logo-mini.png");
@@ -118,9 +122,14 @@ public class Aprendizagem extends javax.swing.JFrame implements NativeKeyListene
         jButtonSendKeys = new javax.swing.JButton();
         jPanelOpcoes = new javax.swing.JPanel();
         jCheckBoxSetTimeOutAutomatic = new javax.swing.JCheckBox();
+        jPanelParaSetTimeout = new javax.swing.JPanel();
+        jButtonSetTimeout = new javax.swing.JButton();
+        jLabelSeg = new javax.swing.JLabel();
+        jTextFieldSetTimeout = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Repita RPA - Aprendizagem");
+        setAlwaysOnTop(true);
         setUndecorated(true);
         setPreferredSize(new java.awt.Dimension(336, 363));
         addWindowFocusListener(new java.awt.event.WindowFocusListener() {
@@ -193,10 +202,10 @@ public class Aprendizagem extends javax.swing.JFrame implements NativeKeyListene
                 .addContainerGap()
                 .addGroup(jPanelTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jButtonPause, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanelTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jComboBoxAcoes, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanelTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jButtonResume, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButtonOpcoes, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jButtonOpcoes, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jComboBoxAcoes, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -272,7 +281,7 @@ public class Aprendizagem extends javax.swing.JFrame implements NativeKeyListene
             jPanelParaSendKeysLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelParaSendKeysLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPaneSendKeys, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addComponent(jScrollPaneSendKeys)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonSendKeys, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -281,16 +290,16 @@ public class Aprendizagem extends javax.swing.JFrame implements NativeKeyListene
             jPanelParaSendKeysLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelParaSendKeysLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPaneSendKeys, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelParaSendKeysLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButtonSendKeys)
-                .addGap(44, 44, 44))
+                .addGroup(jPanelParaSendKeysLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jButtonSendKeys, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPaneSendKeys, javax.swing.GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jPanelOpcoes.setBackground(new java.awt.Color(245, 245, 245));
         jPanelOpcoes.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153), 2));
 
+        jCheckBoxSetTimeOutAutomatic.setBackground(new java.awt.Color(245, 245, 245));
         jCheckBoxSetTimeOutAutomatic.setSelected(true);
         jCheckBoxSetTimeOutAutomatic.setText("Set timeout automático");
 
@@ -311,6 +320,47 @@ public class Aprendizagem extends javax.swing.JFrame implements NativeKeyListene
                 .addContainerGap())
         );
 
+        jPanelParaSetTimeout.setBackground(new java.awt.Color(40, 41, 35));
+        jPanelParaSetTimeout.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153), 2));
+
+        jButtonSetTimeout.setBackground(new java.awt.Color(245, 245, 245));
+        jButtonSetTimeout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/enviar.png"))); // NOI18N
+        jButtonSetTimeout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSetTimeoutActionPerformed(evt);
+            }
+        });
+
+        jLabelSeg.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelSeg.setText("seg.");
+
+        javax.swing.GroupLayout jPanelParaSetTimeoutLayout = new javax.swing.GroupLayout(jPanelParaSetTimeout);
+        jPanelParaSetTimeout.setLayout(jPanelParaSetTimeoutLayout);
+        jPanelParaSetTimeoutLayout.setHorizontalGroup(
+            jPanelParaSetTimeoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelParaSetTimeoutLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTextFieldSetTimeout)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabelSeg)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonSetTimeout, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanelParaSetTimeoutLayout.setVerticalGroup(
+            jPanelParaSetTimeoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelParaSetTimeoutLayout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addGroup(jPanelParaSetTimeoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelSeg)
+                    .addComponent(jTextFieldSetTimeout, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(19, Short.MAX_VALUE))
+            .addGroup(jPanelParaSetTimeoutLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButtonSetTimeout, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -319,6 +369,7 @@ public class Aprendizagem extends javax.swing.JFrame implements NativeKeyListene
             .addComponent(jPanelBottom, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanelParaSendKeys, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanelOpcoes, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanelParaSetTimeout, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -329,8 +380,9 @@ public class Aprendizagem extends javax.swing.JFrame implements NativeKeyListene
                 .addGap(0, 0, 0)
                 .addComponent(jPanelParaSendKeys, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(jPanelBottom, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0))
+                .addComponent(jPanelParaSetTimeout, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(jPanelBottom, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -435,11 +487,19 @@ public class Aprendizagem extends javax.swing.JFrame implements NativeKeyListene
         switch (jComboBoxAcoes.getSelectedIndex()) {
             case 0:
                 this.setSize(336, jPanelTop.getSize().height + jPanelBottom.getSize().height);
+                this.jPanelParaSetTimeout.setVisible(false);
                 this.jPanelParaSendKeys.setVisible(false);
                 break;
             case 1:
                 this.setSize(336, jPanelTop.getSize().height + jPanelParaSendKeys.getPreferredSize().height + jPanelBottom.getSize().height);
                 this.jPanelParaSendKeys.setVisible(true);
+                this.jPanelParaSetTimeout.setVisible(false);
+                this.jPanelOpcoes.setVisible(false);
+                break;
+            case 2:
+                this.setSize(336, jPanelTop.getSize().height + jPanelParaSetTimeout.getPreferredSize().height + jPanelBottom.getSize().height);
+                this.jPanelParaSetTimeout.setVisible(true);
+                this.jPanelParaSendKeys.setVisible(false);
                 this.jPanelOpcoes.setVisible(false);
                 break;
         }
@@ -476,7 +536,7 @@ public class Aprendizagem extends javax.swing.JFrame implements NativeKeyListene
 
             script += "robot.delay(" + ((this.segInterno - this.segUltimaAcao) * 1000) + ");\n";
 
-            list.addElement("Delay - " + ((this.segInterno - this.segUltimaAcao) * 1000));
+            list.addElement("Delay - " + ((this.segInterno - this.segUltimaAcao)) + " seg.");
             int index = jListAcoes.getSelectedIndex();
             jListAcoes.setSelectedIndex(index + 1);
             jListAcoes.ensureIndexIsVisible(index + 1);
@@ -536,6 +596,19 @@ public class Aprendizagem extends javax.swing.JFrame implements NativeKeyListene
         this.jButtonPause.setEnabled(false);
     }//GEN-LAST:event_jButtonPauseActionPerformed
 
+    private void jButtonSetTimeoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSetTimeoutActionPerformed
+        try {
+            script += "robot.delay(" + Math.round((Double.parseDouble(jTextFieldSetTimeout.getText()) * 1000)) + ");\n";
+
+            list.addElement("Delay - " + (Double.parseDouble(jTextFieldSetTimeout.getText()) + " seg."));
+            int index = jListAcoes.getSelectedIndex();
+            jListAcoes.setSelectedIndex(index + 1);
+            jListAcoes.ensureIndexIsVisible(index + 1);
+        } catch (java.lang.NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, jTextFieldSetTimeout.getText() + " não é um numero válido! Tente novamente.");
+        }
+    }//GEN-LAST:event_jButtonSetTimeoutActionPerformed
+
     private static Point point;
     private final JFrame parent;
     private Editor editor;
@@ -552,16 +625,20 @@ public class Aprendizagem extends javax.swing.JFrame implements NativeKeyListene
     private javax.swing.JButton jButtonPause;
     private javax.swing.JButton jButtonResume;
     private javax.swing.JButton jButtonSendKeys;
+    private javax.swing.JButton jButtonSetTimeout;
     private javax.swing.JCheckBox jCheckBoxSetTimeOutAutomatic;
     private javax.swing.JComboBox jComboBoxAcoes;
     private javax.swing.JEditorPane jEditorPaneSendKeys;
+    private javax.swing.JLabel jLabelSeg;
     private javax.swing.JList jListAcoes;
     private javax.swing.JPanel jPanelBottom;
     private javax.swing.JPanel jPanelOpcoes;
     private javax.swing.JPanel jPanelParaSendKeys;
+    private javax.swing.JPanel jPanelParaSetTimeout;
     private javax.swing.JPanel jPanelTop;
     private javax.swing.JScrollPane jScrollPaneAcoes;
     private javax.swing.JScrollPane jScrollPaneSendKeys;
+    private javax.swing.JTextField jTextFieldSetTimeout;
     // End of variables declaration//GEN-END:variables
 
     public void setEditor(Editor editor) {
@@ -588,7 +665,7 @@ public class Aprendizagem extends javax.swing.JFrame implements NativeKeyListene
 
             script += "robot.delay(" + ((segAtual - this.segUltimaAcao) * 1000) + ");\n";
 
-            list.addElement("Delay - " + ((segAtual - this.segUltimaAcao) * 1000));
+            list.addElement("Delay - " + ((segAtual - this.segUltimaAcao)) + " seg.");
             int index = jListAcoes.getSelectedIndex();
             jListAcoes.setSelectedIndex(index + 1);
             jListAcoes.ensureIndexIsVisible(index + 1);
@@ -1096,7 +1173,7 @@ public class Aprendizagem extends javax.swing.JFrame implements NativeKeyListene
 
             script += "robot.delay(" + ((segAtual - this.segUltimaAcao) * 1000) + ");\n";
 
-            list.addElement("Delay - " + ((segAtual - this.segUltimaAcao) * 1000));
+            list.addElement("Delay - " + ((segAtual - this.segUltimaAcao)) + " seg.");
             int index = jListAcoes.getSelectedIndex();
             jListAcoes.setSelectedIndex(index + 1);
             jListAcoes.ensureIndexIsVisible(index + 1);
