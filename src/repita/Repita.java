@@ -54,7 +54,7 @@ public class Repita extends javax.swing.JFrame {
         URL url = this.getClass().getResource("..//assets//logo-mini.png");
         Image imagemTitulo = Toolkit.getDefaultToolkit().getImage(url);
         setIconImage(imagemTitulo);
-        
+
         initComponents();
 
         customizeMenuBar(jMenuBar);
@@ -864,25 +864,10 @@ public class Repita extends javax.swing.JFrame {
     private void aprendizagem() {
         int i = jTabbedPane.getSelectedIndex();
         if (i > 0) {
-            try {
-                this.setVisible(false);
-                
-                Robot robot = new Robot();
-                
-                robot.delay(100);
-                robot.keyPress(KeyEvent.VK_WINDOWS);
-                robot.keyPress(KeyEvent.VK_D);
-                robot.delay(10);
-                robot.keyRelease(KeyEvent.VK_WINDOWS);
-                robot.keyRelease(KeyEvent.VK_D);
-
-                robot.delay(100);
-                aprendizagem.setVisible(true);
-                Editor editorSelected = (Editor) jTabbedPane.getSelectedComponent();
-                aprendizagem.setEditor(editorSelected);
-            } catch (AWTException ex) {
-                Logger.getLogger(Aprendizagem.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            this.setVisible(false);
+            aprendizagem.setVisible(true);
+            Editor editorSelected = (Editor) jTabbedPane.getSelectedComponent();
+            aprendizagem.setEditor(editorSelected);
         } else {
             JOptionPane.showMessageDialog(null, "Nenhum projeto foi aberto ou iniciado", "Sem projetos", JOptionPane.INFORMATION_MESSAGE);
         }
