@@ -29,15 +29,16 @@ import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
 import componentes.ButtonTabComponent;
-import java.awt.AWTException;
 import java.awt.Image;
-import java.awt.Robot;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.DataInputStream;
 import java.net.URL;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.tools.JavaCompiler;
+import javax.tools.ToolProvider;
 
 /**
  *
@@ -759,7 +760,7 @@ public class Repita extends javax.swing.JFrame {
         fc.setDialogType(JFileChooser.OPEN_DIALOG);
         fc.setApproveButtonText("OK");
         //fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("Arquivo de configuração do robo", "acr", "repita");
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Arquivo JAVA", "java", ".java");
         fc.setFileFilter(filter);
         fc.setMultiSelectionEnabled(false);
         int resultado = fc.showOpenDialog(fc);
@@ -805,7 +806,7 @@ public class Repita extends javax.swing.JFrame {
                 fc.setDialogType(JFileChooser.OPEN_DIALOG);
                 fc.setApproveButtonText("OK");
                 //fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
-                FileNameExtensionFilter filter = new FileNameExtensionFilter("Arquivo de configuração do robo", "acr", "repita");
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("Arquivo JAVA", "java", ".java");
                 fc.setFileFilter(filter);
                 fc.setMultiSelectionEnabled(false);
                 fc.setSelectedFile(new File(jTabbedPane.getTitleAt(jTabbedPane.getSelectedIndex())));
@@ -814,7 +815,7 @@ public class Repita extends javax.swing.JFrame {
                     return;
                 }
 
-                arquivo = new File(fc.getSelectedFile().getAbsolutePath() + ".acr");
+                arquivo = new File(fc.getSelectedFile().getAbsolutePath() + ".java");
                 editorSelected.setArquivo(arquivo);
                 jTabbedPane.setTitleAt(jTabbedPane.getSelectedIndex(), arquivo.getName().replaceAll("\\..*", ""));
             }
@@ -876,7 +877,28 @@ public class Repita extends javax.swing.JFrame {
     private void executar() {
         int i = jTabbedPane.getSelectedIndex();
         if (i > 0) {
-            //code execution
+
+            Editor editorSelected = (Editor) jTabbedPane.getSelectedComponent();
+            File arquivo = editorSelected.getArquivo();
+
+            if (arquivo != null) {
+                JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+                int result = compiler.run(null, null, null, arquivo.getAbsolutePath());
+                Process pc = null;
+                if (result == 0) {
+                    try {
+                        System.out.println("java " + arquivo.getAbsolutePath().replaceAll("\\..*", ".class"));
+                        pc = Runtime.getRuntime().exec("java " + arquivo.getAbsolutePath().replaceAll("\\..*", ".class"));
+                    } catch (IOException ex) {
+                        DataInputStream dis = (DataInputStream) pc.getInputStream();
+                        JOptionPane.showMessageDialog(null, dis);
+                    }
+                }
+
+            } else {
+                JOptionPane.showMessageDialog(null, "Por favor, salve o arquivo antes!");
+                this.salvar();
+            }
         } else {
             JOptionPane.showMessageDialog(null, "Nenhum projeto foi aberto ou iniciado", "Sem projetos", JOptionPane.INFORMATION_MESSAGE);
         }

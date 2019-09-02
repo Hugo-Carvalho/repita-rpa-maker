@@ -212,7 +212,7 @@ public class Aprendizagem extends javax.swing.JFrame implements NativeKeyListene
         jPanelBottom.setBackground(new java.awt.Color(40, 41, 35));
         jPanelBottom.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153), 2));
 
-        jScrollPaneAcoes.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Lista de ações", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(255, 255, 255))); // NOI18N
+        jScrollPaneAcoes.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Lista de ações", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 13), new java.awt.Color(255, 255, 255))); // NOI18N
 
         jListAcoes.setBackground(new java.awt.Color(40, 41, 35));
         jListAcoes.setFont(new java.awt.Font("Consolas", 0, 13)); // NOI18N
@@ -395,6 +395,10 @@ public class Aprendizagem extends javax.swing.JFrame implements NativeKeyListene
         } catch (NativeHookException ex) {
             Logger.getLogger(Aprendizagem.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        jButtonResume.setEnabled(true);
+        this.registerPause = true;
+        this.jButtonPause.setEnabled(false);
     }//GEN-LAST:event_formWindowClosed
 
     private void jButtonConcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConcluirActionPerformed
