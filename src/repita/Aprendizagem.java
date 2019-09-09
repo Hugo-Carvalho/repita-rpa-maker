@@ -44,7 +44,7 @@ public class Aprendizagem extends javax.swing.JFrame implements NativeKeyListene
 
         this.parent = parent;
         this.point = new Point();
-        this.script = "";
+        this.script = "";        
         this.list = new DefaultListModel();
 
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
@@ -212,7 +212,7 @@ public class Aprendizagem extends javax.swing.JFrame implements NativeKeyListene
         jPanelBottom.setBackground(new java.awt.Color(40, 41, 35));
         jPanelBottom.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153), 2));
 
-        jScrollPaneAcoes.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Lista de ações", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 13), new java.awt.Color(255, 255, 255))); // NOI18N
+        jScrollPaneAcoes.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Lista de ações", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(255, 255, 255))); // NOI18N
 
         jListAcoes.setBackground(new java.awt.Color(40, 41, 35));
         jListAcoes.setFont(new java.awt.Font("Consolas", 0, 13)); // NOI18N
@@ -408,7 +408,21 @@ public class Aprendizagem extends javax.swing.JFrame implements NativeKeyListene
         } catch (NativeHookException ex) {
             Logger.getLogger(Aprendizagem.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        
+        this.script = this.script = "import java.awt.Robot;\n"
+                + "import java.awt.AWTException;\n"
+                + "import componentes.SendKeys;\n\n"
+                + "public class " + editor.getArquivo().getName().replaceAll("\\..*", "") + "{\n"
+                + "    public static void main(String[] args) {\n"
+                + "        Robot robot = null;\n"
+                + "        try{\n"
+                + "            robot = new Robot();\n"
+                + "        }catch(AWTException ex){\n"
+                + "            System.out.println(\"ex\");\n"
+                + "        }\n"
+                + "        " + this.script.replaceAll("\n", "\n        ")
+                + "}\n"
+                + "}";
         editor.getjTextAreaScript().setText(editor.getjTextAreaScript().getText() + this.script);
         this.script = "";
         this.list.removeAllElements();

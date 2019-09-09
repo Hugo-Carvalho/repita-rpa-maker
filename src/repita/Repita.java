@@ -32,12 +32,21 @@ import componentes.ButtonTabComponent;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.DataInputStream;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.URL;
+import java.util.Arrays;
+import java.util.List;
+import javax.swing.ImageIcon;
+import javax.swing.JDialog;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.tools.Diagnostic;
+import javax.tools.DiagnosticCollector;
 import javax.tools.JavaCompiler;
+import javax.tools.JavaFileObject;
+import javax.tools.StandardJavaFileManager;
 import javax.tools.ToolProvider;
 
 /**
@@ -57,6 +66,8 @@ public class Repita extends javax.swing.JFrame {
         setIconImage(imagemTitulo);
 
         initComponents();
+
+        this.jPanelTerminal.setVisible(false);
 
         customizeMenuBar(jMenuBar);
 
@@ -96,6 +107,10 @@ public class Repita extends javax.swing.JFrame {
         jPanelImage = new javax.swing.JPanel();
         jLabelLogo = new javax.swing.JLabel();
         jLabelTitle = new javax.swing.JLabel();
+        jPanelTerminal = new javax.swing.JPanel();
+        jScrollPaneTerminal = new javax.swing.JScrollPane();
+        jTextPaneTerminal = new javax.swing.JTextPane();
+        jButtonFecharTerminal = new javax.swing.JButton();
         jMenuBar = new javax.swing.JMenuBar();
         jMenuArquivo = new javax.swing.JMenu();
         jMenuItemNovoProjeto = new javax.swing.JMenuItem();
@@ -282,12 +297,44 @@ public class Repita extends javax.swing.JFrame {
         jPanelTelaInicialLayout.setVerticalGroup(
             jPanelTelaInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelTelaInicialLayout.createSequentialGroup()
-                .addContainerGap(67, Short.MAX_VALUE)
+                .addContainerGap(62, Short.MAX_VALUE)
                 .addComponent(jPanelImage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(111, 111, 111))
+                .addGap(120, 120, 120))
         );
 
         jTabbedPane.addTab("Início", null, jPanelTelaInicial, "Início");
+
+        jPanelTerminal.setBackground(new java.awt.Color(40, 41, 35));
+
+        jTextPaneTerminal.setFont(new java.awt.Font("Consolas", 0, 15)); // NOI18N
+        jScrollPaneTerminal.setViewportView(jTextPaneTerminal);
+
+        jButtonFecharTerminal.setBackground(new java.awt.Color(245, 245, 245));
+        jButtonFecharTerminal.setText("x");
+        jButtonFecharTerminal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonFecharTerminalActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanelTerminalLayout = new javax.swing.GroupLayout(jPanelTerminal);
+        jPanelTerminal.setLayout(jPanelTerminalLayout);
+        jPanelTerminalLayout.setHorizontalGroup(
+            jPanelTerminalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPaneTerminal)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelTerminalLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButtonFecharTerminal, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanelTerminalLayout.setVerticalGroup(
+            jPanelTerminalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelTerminalLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButtonFecharTerminal, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                .addComponent(jScrollPaneTerminal, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
 
         jMenuBar.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         jMenuBar.setDebugGraphicsOptions(javax.swing.DebugGraphics.NONE_OPTION);
@@ -519,13 +566,17 @@ public class Repita extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanelBarraRapida, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jTabbedPane)
+            .addComponent(jPanelTerminal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanelBarraRapida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTabbedPane)
                 .addGap(0, 0, 0)
-                .addComponent(jTabbedPane))
+                .addComponent(jPanelTerminal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0))
         );
 
         jTabbedPane.getAccessibleContext().setAccessibleName("Início");
@@ -658,7 +709,7 @@ public class Repita extends javax.swing.JFrame {
             fc.setDialogType(JFileChooser.OPEN_DIALOG);
             fc.setApproveButtonText("OK");
             //fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
-            FileNameExtensionFilter filter = new FileNameExtensionFilter("Arquivo de configuração do robo", "acr", "repita");
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("Arquivo JAVA", "java", "java");
             fc.setFileFilter(filter);
             fc.setMultiSelectionEnabled(false);
             fc.setSelectedFile(new File(jTabbedPane.getTitleAt(jTabbedPane.getSelectedIndex())));
@@ -667,7 +718,7 @@ public class Repita extends javax.swing.JFrame {
                 return;
             }
 
-            arquivo = new File(fc.getSelectedFile().getAbsolutePath() + ".acr");
+            arquivo = new File(fc.getSelectedFile().getAbsolutePath() + ".java");
             editorSelected.setArquivo(arquivo);
             jTabbedPane.setTitleAt(jTabbedPane.getSelectedIndex(), arquivo.getName().replaceAll("\\..*", ""));
 
@@ -727,6 +778,11 @@ public class Repita extends javax.swing.JFrame {
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         this.executar();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jButtonFecharTerminalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFecharTerminalActionPerformed
+        this.jPanelTerminal.setVisible(false);
+        this.jTextPaneTerminal.setText("");
+    }//GEN-LAST:event_jButtonFecharTerminalActionPerformed
 
     private void novo() {
         editor = new Editor();
@@ -865,16 +921,42 @@ public class Repita extends javax.swing.JFrame {
     private void aprendizagem() {
         int i = jTabbedPane.getSelectedIndex();
         if (i > 0) {
-            this.setVisible(false);
-            aprendizagem.setVisible(true);
             Editor editorSelected = (Editor) jTabbedPane.getSelectedComponent();
-            aprendizagem.setEditor(editorSelected);
+            File arquivo = editorSelected.getArquivo();
+            if (arquivo != null) {
+                this.salvar();
+                this.setVisible(false);
+                aprendizagem.setVisible(true);
+                aprendizagem.setEditor(editorSelected);
+            } else {
+                JOptionPane.showMessageDialog(null, "Por favor, salve o arquivo antes!");
+                this.salvar();
+            }
         } else {
             JOptionPane.showMessageDialog(null, "Nenhum projeto foi aberto ou iniciado", "Sem projetos", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
     private void executar() {
+        jButtonExecutar.setEnabled(false);
+        URL url = this.getClass().getResource("..//assets//logo-mini.png");
+        JOptionPane opt = new JOptionPane("Carregando...", JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION, new ImageIcon(url), new Object[]{});
+        final JDialog dlg = opt.createDialog("Carregando...");
+        Image imagemTitulo = Toolkit.getDefaultToolkit().getImage(url);
+        dlg.setIconImage(imagemTitulo);
+        new Thread(new Runnable() {
+            public void run() {
+                try {
+                    Thread.sleep(500);
+                    dlg.dispose();
+
+                } catch (Throwable th) {
+                    System.out.println("error");
+                }
+            }
+        }).start();
+        dlg.setVisible(true);
+        
         int i = jTabbedPane.getSelectedIndex();
         if (i > 0) {
 
@@ -882,17 +964,59 @@ public class Repita extends javax.swing.JFrame {
             File arquivo = editorSelected.getArquivo();
 
             if (arquivo != null) {
+                this.salvar();
+
+                this.jTextPaneTerminal.setText("");
+                this.jPanelTerminal.setVisible(true);
+
+                String saida = "";
                 JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
-                int result = compiler.run(null, null, null, arquivo.getAbsolutePath());
-                Process pc = null;
-                if (result == 0) {
-                    try {
-                        System.out.println("java " + arquivo.getAbsolutePath().replaceAll("\\..*", ".class"));
-                        pc = Runtime.getRuntime().exec("java " + arquivo.getAbsolutePath().replaceAll("\\..*", ".class"));
-                    } catch (IOException ex) {
-                        DataInputStream dis = (DataInputStream) pc.getInputStream();
-                        JOptionPane.showMessageDialog(null, dis);
+                DiagnosticCollector<JavaFileObject> diagnosticsCollector = new DiagnosticCollector<JavaFileObject>();
+                StandardJavaFileManager fileManager = compiler.getStandardFileManager(diagnosticsCollector, null, null);
+                Iterable<? extends JavaFileObject> compilationUnits = fileManager.getJavaFileObjectsFromStrings(Arrays.asList(arquivo.getAbsolutePath()));
+                JavaCompiler.CompilationTask task = compiler.getTask(null, fileManager, diagnosticsCollector, null, null, compilationUnits);
+                boolean success = task.call();
+                if (!success) {
+                    List<Diagnostic<? extends JavaFileObject>> diagnostics = diagnosticsCollector.getDiagnostics();
+                    for (Diagnostic<? extends JavaFileObject> diagnostic : diagnostics) {
+                        // read error dertails from the diagnostic object
+                        saida += diagnostic.getMessage(null) + "\n";
                     }
+                }
+                try {
+                    fileManager.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(Repita.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                saida += "Success: " + success;
+
+                Process pc = null;
+                if (success) {
+                    try {
+                        File arq = new File(arquivo.getParent() + "\\execute.bat");
+                        FileWriter arqW = new FileWriter(arq);
+                        PrintWriter gravarArq = new PrintWriter(arqW);
+                        gravarArq.printf("cd " + arquivo.getParent() + " & java " + arquivo.getName().replaceAll("\\.java", ""));
+                        arqW.close();
+                        pc = Runtime.getRuntime().exec(arquivo.getParent() + "\\execute.bat");
+                        BufferedReader errinput = new BufferedReader(new InputStreamReader(pc.getErrorStream()));
+                        String line = null;
+                        saida = "";
+                        while ((line = errinput.readLine()) != null) {
+                            saida += line;
+                        }
+                        if (!saida.isEmpty()) {
+                            this.jTextPaneTerminal.setText(saida);
+                        } else {
+                            this.jTextPaneTerminal.setText("CONSTRUÍDO COM SUCESSO!");
+                        }
+                        arq.delete();
+                        new File(arquivo.getAbsolutePath().replaceAll(".java", ".class")).delete();
+                    } catch (IOException ex) {
+                        this.jTextPaneTerminal.setText("Error: " + ex);
+                    }
+                } else {
+                    this.jTextPaneTerminal.setText(saida);
                 }
 
             } else {
@@ -902,6 +1026,7 @@ public class Repita extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(null, "Nenhum projeto foi aberto ou iniciado", "Sem projetos", JOptionPane.INFORMATION_MESSAGE);
         }
+        jButtonExecutar.setEnabled(true);
     }
 
     private void customizeMenuBar(JMenuBar menuBar) {
@@ -1151,6 +1276,7 @@ public class Repita extends javax.swing.JFrame {
     private javax.swing.JButton jButtonAprendizagem;
     private javax.swing.JButton jButtonDesfazer;
     private javax.swing.JButton jButtonExecutar;
+    private javax.swing.JButton jButtonFecharTerminal;
     private javax.swing.JButton jButtonNovoProjeto;
     private javax.swing.JButton jButtonRefazer;
     private javax.swing.JButton jButtonSalvar;
@@ -1183,6 +1309,8 @@ public class Repita extends javax.swing.JFrame {
     private javax.swing.JPanel jPanelBarraRapida;
     private javax.swing.JPanel jPanelImage;
     private javax.swing.JPanel jPanelTelaInicial;
+    private javax.swing.JPanel jPanelTerminal;
+    private javax.swing.JScrollPane jScrollPaneTerminal;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
@@ -1191,5 +1319,6 @@ public class Repita extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator6;
     private javax.swing.JSeparator jSeparator7;
     private javax.swing.JTabbedPane jTabbedPane;
+    private javax.swing.JTextPane jTextPaneTerminal;
     // End of variables declaration//GEN-END:variables
 }
