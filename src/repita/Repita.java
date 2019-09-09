@@ -60,21 +60,21 @@ public class Repita extends javax.swing.JFrame {
      */
     public Repita() {
         this.setExtendedState(MAXIMIZED_BOTH);
-
+        
         URL url = this.getClass().getResource("..//assets//logo-mini.png");
         Image imagemTitulo = Toolkit.getDefaultToolkit().getImage(url);
         setIconImage(imagemTitulo);
-
+        
         initComponents();
-
+        
         this.jPanelTerminal.setVisible(false);
-
+        
         customizeMenuBar(jMenuBar);
-
+        
         localizar = localizar.getInstancia();
         addListenersLocalizar();
         addListenersJTabbedPane();
-
+        
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 aprendizagem = new Aprendizagem(Repita.this);
@@ -137,6 +137,8 @@ public class Repita extends javax.swing.JFrame {
         jMenuExecutar = new javax.swing.JMenu();
         jMenuItemIniciarAprendizagem = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jSeparator8 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem2 = new javax.swing.JMenuItem();
         jMenuJanela = new javax.swing.JMenu();
         jCheckBoxMenuItemBarraRapida = new javax.swing.JCheckBoxMenuItem();
 
@@ -540,6 +542,17 @@ public class Repita extends javax.swing.JFrame {
             }
         });
         jMenuExecutar.add(jMenuItem1);
+        jMenuExecutar.add(jSeparator8);
+
+        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
+        jMenuItem2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jMenuItem2.setText("Gerar Classe");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenuExecutar.add(jMenuItem2);
 
         jMenuBar.add(jMenuExecutar);
 
@@ -703,7 +716,7 @@ public class Repita extends javax.swing.JFrame {
         if (i > 0) {
             Editor editorSelected = (Editor) jTabbedPane.getSelectedComponent();
             File arquivo;
-
+            
             JFileChooser fc = new JFileChooser();
             fc.setDialogTitle("Salvar em...");
             fc.setDialogType(JFileChooser.OPEN_DIALOG);
@@ -717,11 +730,11 @@ public class Repita extends javax.swing.JFrame {
             if (resultado == JFileChooser.CANCEL_OPTION) {
                 return;
             }
-
+            
             arquivo = new File(fc.getSelectedFile().getAbsolutePath() + ".java");
             editorSelected.setArquivo(arquivo);
             jTabbedPane.setTitleAt(jTabbedPane.getSelectedIndex(), arquivo.getName().replaceAll("\\..*", ""));
-
+            
             FileWriter write;
             try {
                 write = new FileWriter(arquivo);
@@ -729,10 +742,10 @@ public class Repita extends javax.swing.JFrame {
             } catch (IOException ex) {
                 Logger.getLogger(Repita.class.getName()).log(Level.SEVERE, null, ex);
             }
-
+            
             jButtonSalvar.setEnabled(false);
             editorSelected.setSalvo(true);
-
+            
         } else {
             JOptionPane.showMessageDialog(null, "Nenhum projeto foi aberto ou iniciado", "Sem projetos", JOptionPane.INFORMATION_MESSAGE);
         }
@@ -784,6 +797,27 @@ public class Repita extends javax.swing.JFrame {
         this.jTextPaneTerminal.setText("");
     }//GEN-LAST:event_jButtonFecharTerminalActionPerformed
 
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        if (!editor.getjTextAreaScript().getText().contains("public class")) {
+            editor.getjTextAreaScript().setText("import java.awt.Robot;\n"
+                    + "import java.awt.AWTException;\n"
+                    + "import componentes.SendKeys;\n\n"
+                    + "public class " + editor.getArquivo().getName().replaceAll("\\..*", "") + "{\n"
+                    + "    public static void main(String[] args) {\n"
+                    + "        Robot robot = null;\n"
+                    + "        try{\n"
+                    + "            robot = new Robot();\n"
+                    + "        }catch(AWTException ex){\n"
+                    + "            System.out.println(\"ex\");\n"
+                    + "        }\n"
+                    + "        " + editor.getjTextAreaScript().getText().replaceAll(" ", "").replaceAll("\n", "\n        ") + "\n"
+                    + "   }\n"
+                    + "}");
+        } else {
+            JOptionPane.showMessageDialog(null, "O arquivo ja contem class");
+        }
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+    
     private void novo() {
         editor = new Editor();
         addListenersEditor();
@@ -799,7 +833,7 @@ public class Repita extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(this, "O projeto precisa de um nome!");
                 } else {
                     jTabbedPane.addTab(tituloProjeto, null, editor, tituloProjeto);
-
+                    
                     jTabbedPane.setSelectedComponent(editor);
                     int i = jTabbedPane.getSelectedIndex();
                     jTabbedPane.setTabComponentAt(i, new ButtonTabComponent(jTabbedPane));
@@ -809,7 +843,7 @@ public class Repita extends javax.swing.JFrame {
             System.out.println("Novo projeto cancelado");
         }
     }
-
+    
     private void abrir() {
         JFileChooser fc = new JFileChooser();
         fc.setDialogTitle("Escolha o arquivo...");
@@ -823,7 +857,7 @@ public class Repita extends javax.swing.JFrame {
         if (resultado == JFileChooser.CANCEL_OPTION) {
             return;
         }
-
+        
         File file = fc.getSelectedFile();
         try {
             editor = new Editor();
@@ -837,7 +871,7 @@ public class Repita extends javax.swing.JFrame {
             jTabbedPane.setSelectedComponent(editor);
             int i = jTabbedPane.getSelectedIndex();
             jTabbedPane.setTabComponentAt(i, new ButtonTabComponent(jTabbedPane));
-
+            
             FileReader reader = new FileReader(file);
             BufferedReader input = new BufferedReader(reader);
             String linha;
@@ -845,17 +879,21 @@ public class Repita extends javax.swing.JFrame {
                 editor.getjTextAreaScript().setText(editor.getjTextAreaScript().getText() + linha + "\n");
             }
             input.close();
+            
+            if (editor.getjTextAreaScript().getText().contains("public class")) {
+                editor.setClassInserido(true);
+            }
         } catch (IOException ioe) {
             System.out.println(ioe);
         }
     }
-
+    
     private void salvar() {
         int i = jTabbedPane.getSelectedIndex();
         if (i > 0) {
             Editor editorSelected = (Editor) jTabbedPane.getSelectedComponent();
             File arquivo = editorSelected.getArquivo();
-
+            
             if (arquivo == null) {
                 JFileChooser fc = new JFileChooser();
                 fc.setDialogTitle("Salvar em...");
@@ -870,12 +908,12 @@ public class Repita extends javax.swing.JFrame {
                 if (resultado == JFileChooser.CANCEL_OPTION) {
                     return;
                 }
-
+                
                 arquivo = new File(fc.getSelectedFile().getAbsolutePath() + ".java");
                 editorSelected.setArquivo(arquivo);
                 jTabbedPane.setTitleAt(jTabbedPane.getSelectedIndex(), arquivo.getName().replaceAll("\\..*", ""));
             }
-
+            
             FileWriter write;
             try {
                 write = new FileWriter(arquivo);
@@ -883,15 +921,15 @@ public class Repita extends javax.swing.JFrame {
             } catch (IOException ex) {
                 Logger.getLogger(Repita.class.getName()).log(Level.SEVERE, null, ex);
             }
-
+            
             jButtonSalvar.setEnabled(false);
             editorSelected.setSalvo(true);
-
+            
         } else {
             JOptionPane.showMessageDialog(null, "Nenhum projeto foi aberto ou iniciado", "Sem projetos", JOptionPane.INFORMATION_MESSAGE);
         }
     }
-
+    
     private void desfazer() {
         int i = jTabbedPane.getSelectedIndex();
         if (i > 0) {
@@ -904,7 +942,7 @@ public class Repita extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Nenhum projeto foi aberto ou iniciado", "Sem projetos", JOptionPane.INFORMATION_MESSAGE);
         }
     }
-
+    
     private void refazer() {
         int i = jTabbedPane.getSelectedIndex();
         if (i > 0) {
@@ -917,7 +955,7 @@ public class Repita extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Nenhum projeto foi aberto ou iniciado", "Sem projetos", JOptionPane.INFORMATION_MESSAGE);
         }
     }
-
+    
     private void aprendizagem() {
         int i = jTabbedPane.getSelectedIndex();
         if (i > 0) {
@@ -936,9 +974,10 @@ public class Repita extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Nenhum projeto foi aberto ou iniciado", "Sem projetos", JOptionPane.INFORMATION_MESSAGE);
         }
     }
-
+    
     private void executar() {
         jButtonExecutar.setEnabled(false);
+        this.jTextPaneTerminal.setText("");
         URL url = this.getClass().getResource("..//assets//logo-mini.png");
         JOptionPane opt = new JOptionPane("Carregando...", JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION, new ImageIcon(url), new Object[]{});
         final JDialog dlg = opt.createDialog("Carregando...");
@@ -949,7 +988,7 @@ public class Repita extends javax.swing.JFrame {
                 try {
                     Thread.sleep(500);
                     dlg.dispose();
-
+                    
                 } catch (Throwable th) {
                     System.out.println("error");
                 }
@@ -959,16 +998,15 @@ public class Repita extends javax.swing.JFrame {
         
         int i = jTabbedPane.getSelectedIndex();
         if (i > 0) {
-
+            
             Editor editorSelected = (Editor) jTabbedPane.getSelectedComponent();
             File arquivo = editorSelected.getArquivo();
-
+            
             if (arquivo != null) {
                 this.salvar();
-
-                this.jTextPaneTerminal.setText("");
+                
                 this.jPanelTerminal.setVisible(true);
-
+                
                 String saida = "";
                 JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
                 DiagnosticCollector<JavaFileObject> diagnosticsCollector = new DiagnosticCollector<JavaFileObject>();
@@ -989,7 +1027,7 @@ public class Repita extends javax.swing.JFrame {
                     Logger.getLogger(Repita.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 saida += "Success: " + success;
-
+                
                 Process pc = null;
                 if (success) {
                     try {
@@ -1018,7 +1056,7 @@ public class Repita extends javax.swing.JFrame {
                 } else {
                     this.jTextPaneTerminal.setText(saida);
                 }
-
+                
             } else {
                 JOptionPane.showMessageDialog(null, "Por favor, salve o arquivo antes!");
                 this.salvar();
@@ -1028,46 +1066,46 @@ public class Repita extends javax.swing.JFrame {
         }
         jButtonExecutar.setEnabled(true);
     }
-
+    
     private void customizeMenuBar(JMenuBar menuBar) {
-
+        
         menuBar.setUI(new BasicMenuBarUI() {
-
+            
             @Override
             public void paint(Graphics g, JComponent c) {
                 g.setColor(Color.white);
                 g.fillRect(0, 0, c.getWidth(), c.getHeight());
             }
         });
-
+        
         MenuElement[] menus = menuBar.getSubElements();
-
+        
         for (MenuElement menuElement : menus) {
-
+            
             JMenu menu = (JMenu) menuElement.getComponent();
             changeComponentColors(menu);
             menu.setOpaque(true);
-
+            
             MenuElement[] menuElements = menu.getSubElements();
-
+            
             for (MenuElement popupMenuElement : menuElements) {
-
+                
                 JPopupMenu popupMenu = (JPopupMenu) popupMenuElement.getComponent();
                 popupMenu.setBorder(null);
-
+                
                 MenuElement[] menuItens = popupMenuElement.getSubElements();
-
+                
                 for (MenuElement menuItemElement : menuItens) {
-
+                    
                     JMenuItem menuItem = (JMenuItem) menuItemElement.getComponent();
                     changeComponentColors(menuItem);
                     menuItem.setOpaque(true);
-
+                    
                 }
             }
         }
     }
-
+    
     private void addListenersLocalizar() {
         localizar.addActionListenerjButtonLocalizar((ActionEvent evt1) -> {
             Editor editorSelected = (Editor) jTabbedPane.getSelectedComponent();
@@ -1075,15 +1113,15 @@ public class Repita extends javax.swing.JFrame {
             if (searchstr == null) {
                 return;
             }
-
+            
             String aktStr = editorSelected.getjTextAreaScript().getText();
             if (!localizar.isDifMaiuscMinusc()) {
                 searchstr = searchstr.toUpperCase();
                 aktStr = aktStr.toUpperCase();
             }
-
+            
             int index = aktStr.indexOf(searchstr);
-
+            
             if (index == -1) {
                 JOptionPane.showMessageDialog(null, "Texto não foi localizado!", "Localizar", JOptionPane.INFORMATION_MESSAGE);
             } else {
@@ -1096,20 +1134,20 @@ public class Repita extends javax.swing.JFrame {
             if (searchstr == null) {
                 return;
             }
-
+            
             String aktStr = editorSelected.getjTextAreaScript().getText();
             if (!localizar.isDifMaiuscMinusc()) {
                 searchstr = searchstr.toUpperCase();
                 aktStr = aktStr.toUpperCase();
             }
-
+            
             int currentCaretPosition = editorSelected.getjTextAreaScript().getCaretPosition();
-
+            
             if (currentCaretPosition < aktStr.length()) {
                 int caracteresAnteriores = aktStr.substring(0, currentCaretPosition).length();
                 aktStr = aktStr.substring(currentCaretPosition, aktStr.length());
                 int index = aktStr.indexOf(searchstr);
-
+                
                 if (index == -1) {
                     JOptionPane.showMessageDialog(null, "Texto não foi localizado!", "Localizar proxima", JOptionPane.INFORMATION_MESSAGE);
                 } else {
@@ -1124,19 +1162,19 @@ public class Repita extends javax.swing.JFrame {
             if (searchstr == null) {
                 return;
             }
-
+            
             if (subssearchstr == null) {
                 subssearchstr = "";
             }
-
+            
             String aktStr = editorSelected.getjTextAreaScript().getText();
             if (!localizar.isDifMaiuscMinusc()) {
                 searchstr = searchstr.toUpperCase();
                 aktStr = aktStr.toUpperCase();
             }
-
+            
             int index = aktStr.indexOf(searchstr);
-
+            
             if (index == -1) {
                 JOptionPane.showMessageDialog(null, "Texto não foi localizado!", "Substituir", JOptionPane.INFORMATION_MESSAGE);
             } else {
@@ -1152,19 +1190,19 @@ public class Repita extends javax.swing.JFrame {
             if (searchstr == null) {
                 return;
             }
-
+            
             if (subssearchstr == null) {
                 subssearchstr = "";
             }
-
+            
             String aktStr = editorSelected.getjTextAreaScript().getText();
             if (!localizar.isDifMaiuscMinusc()) {
                 searchstr = searchstr.toUpperCase();
                 aktStr = aktStr.toUpperCase();
             }
-
+            
             int index = aktStr.indexOf(searchstr);
-
+            
             if (index == -1) {
                 JOptionPane.showMessageDialog(null, "Texto não foi localizado!", "Substituir todos", JOptionPane.INFORMATION_MESSAGE);
             } else {
@@ -1173,7 +1211,7 @@ public class Repita extends javax.swing.JFrame {
             }
         });
     }
-
+    
     private void addListenersEditor() {
         editor.getjTextAreaScript().addKeyListener(new KeyListener() {
             @Override
@@ -1182,19 +1220,19 @@ public class Repita extends javax.swing.JFrame {
                 Editor editorSelected = (Editor) jTabbedPane.getSelectedComponent();
                 editorSelected.setSalvo(false);
             }
-
+            
             @Override
             public void keyTyped(KeyEvent ke) {
-
+                
             }
-
+            
             @Override
             public void keyReleased(KeyEvent ke) {
-
+                
             }
         });
     }
-
+    
     private void addListenersJTabbedPane() {
         jTabbedPane.addChangeListener(new ChangeListener() {
             @Override
@@ -1211,7 +1249,7 @@ public class Repita extends javax.swing.JFrame {
             }
         });
     }
-
+    
     private void changeComponentColors(Component comp) {
         comp.setBackground(Color.white);
         comp.setForeground(Color.black);
@@ -1221,7 +1259,7 @@ public class Repita extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-
+        
         Splash splash = new Splash();
 
         /* Set the Nimbus look and feel */
@@ -1234,21 +1272,21 @@ public class Repita extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
-
+                    
                 }
             }
         } catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(Repita.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-
+            
         } catch (InstantiationException ex) {
             java.util.logging.Logger.getLogger(Repita.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-
+            
         } catch (IllegalAccessException ex) {
             java.util.logging.Logger.getLogger(Repita.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-
+            
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Repita.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
@@ -1289,6 +1327,7 @@ public class Repita extends javax.swing.JFrame {
     private javax.swing.JMenu jMenuEditar;
     private javax.swing.JMenu jMenuExecutar;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItemAbrirProjeto;
     private javax.swing.JMenuItem jMenuItemColar;
     private javax.swing.JMenuItem jMenuItemCopiar;
@@ -1318,6 +1357,7 @@ public class Repita extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator5;
     private javax.swing.JSeparator jSeparator6;
     private javax.swing.JSeparator jSeparator7;
+    private javax.swing.JPopupMenu.Separator jSeparator8;
     private javax.swing.JTabbedPane jTabbedPane;
     private javax.swing.JTextPane jTextPaneTerminal;
     // End of variables declaration//GEN-END:variables

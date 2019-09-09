@@ -5,7 +5,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import componentes.TextLineNumber;
 import java.awt.Color;
-import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.UIDefaults;
 
@@ -111,8 +110,16 @@ public class Editor extends javax.swing.JPanel {
         this.salvo = salvo;
     }
 
+    public boolean isClassInserido() {
+        return classInserido;
+    }
+
+    public void setClassInserido(boolean classInserido) {
+        this.classInserido = classInserido;
+    }
+
     private File arquivo;
-    private boolean salvo;
+    private boolean salvo, classInserido;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane;

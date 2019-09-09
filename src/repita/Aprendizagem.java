@@ -44,7 +44,7 @@ public class Aprendizagem extends javax.swing.JFrame implements NativeKeyListene
 
         this.parent = parent;
         this.point = new Point();
-        this.script = "";        
+        this.script = "";
         this.list = new DefaultListModel();
 
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
@@ -57,8 +57,8 @@ public class Aprendizagem extends javax.swing.JFrame implements NativeKeyListene
         this.registerPause = true;
 
         initComponents();
-        
-        this.setAlwaysOnTop (true);
+
+        this.setAlwaysOnTop(true);
 
         this.jPanelOpcoes.setVisible(false);
         this.jPanelParaSendKeys.setVisible(false);
@@ -395,7 +395,7 @@ public class Aprendizagem extends javax.swing.JFrame implements NativeKeyListene
         } catch (NativeHookException ex) {
             Logger.getLogger(Aprendizagem.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         jButtonResume.setEnabled(true);
         this.registerPause = true;
         this.jButtonPause.setEnabled(false);
@@ -408,22 +408,30 @@ public class Aprendizagem extends javax.swing.JFrame implements NativeKeyListene
         } catch (NativeHookException ex) {
             Logger.getLogger(Aprendizagem.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        this.script = this.script = "import java.awt.Robot;\n"
-                + "import java.awt.AWTException;\n"
-                + "import componentes.SendKeys;\n\n"
-                + "public class " + editor.getArquivo().getName().replaceAll("\\..*", "") + "{\n"
-                + "    public static void main(String[] args) {\n"
-                + "        Robot robot = null;\n"
-                + "        try{\n"
-                + "            robot = new Robot();\n"
-                + "        }catch(AWTException ex){\n"
-                + "            System.out.println(\"ex\");\n"
-                + "        }\n"
-                + "        " + this.script.replaceAll("\n", "\n        ")
-                + "}\n"
-                + "}";
-        editor.getjTextAreaScript().setText(editor.getjTextAreaScript().getText() + this.script);
+
+        if (!this.editor.isClassInserido()) {
+            this.script = this.script = "import java.awt.Robot;\n"
+                    + "import java.awt.AWTException;\n"
+                    + "import componentes.SendKeys;\n\n"
+                    + "public class " + editor.getArquivo().getName().replaceAll("\\..*", "") + "{\n"
+                    + "    public static void main(String[] args) {\n"
+                    + "        Robot robot = null;\n"
+                    + "        try{\n"
+                    + "            robot = new Robot();\n"
+                    + "        }catch(AWTException ex){\n"
+                    + "            System.out.println(\"ex\");\n"
+                    + "        }\n"
+                    + editor.getjTextAreaScript().getText()
+                    + "        " + this.script.replaceAll("\n", "\n        ").substring(0, this.script.replaceAll("\n", "\n        ").lastIndexOf("        "))
+                    + "   }\n"
+                    + "}";
+            this.editor.setClassInserido(true);
+            editor.getjTextAreaScript().setText(this.script);
+        } else {
+            editor.getjTextAreaScript().setText(editor.getjTextAreaScript().getText().replaceAll("( )*}( |\\n)*}", "") 
+                    + "        " + this.script.replaceAll("\n", "\n        ").substring(0, this.script.replaceAll("\n", "\n        ").lastIndexOf("        "))
+                    + "    }\n" + "}");
+        }
         this.script = "";
         this.list.removeAllElements();
         this.jEditorPaneSendKeys.setText("");
