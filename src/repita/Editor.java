@@ -1,10 +1,12 @@
 package repita;
 
+import com.sun.glass.events.KeyEvent;
 import java.io.File;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import componentes.TextLineNumber;
 import java.awt.Color;
+import java.awt.Point;
 import javax.swing.BorderFactory;
 import javax.swing.UIDefaults;
 
@@ -19,11 +21,10 @@ public class Editor extends javax.swing.JPanel {
      */
     public Editor() {
         initComponents();
-        
-        /*AbstractDocument document = (AbstractDocument) jTextAreaScript.getDocument();
-        CustomDocumentFilter customDocumentFilter = new CustomDocumentFilter(jTextAreaScript);
-        document.setDocumentFilter(customDocumentFilter);*/
 
+        /*AbstractDocument document = (AbstractDocument) jTextAreaScript.getDocument();
+         CustomDocumentFilter customDocumentFilter = new CustomDocumentFilter(jTextAreaScript);
+         document.setDocumentFilter(customDocumentFilter);*/
         TextLineNumber contadorLinhas = new TextLineNumber(jTextAreaScript);
 
         jScrollPane.setRowHeaderView(contadorLinhas);
@@ -63,6 +64,9 @@ public class Editor extends javax.swing.JPanel {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jTextAreaScriptKeyPressed(evt);
             }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextAreaScriptKeyReleased(evt);
+            }
         });
         jScrollPane.setViewportView(jTextAreaScript);
 
@@ -82,8 +86,16 @@ public class Editor extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jTextAreaScriptKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextAreaScriptKeyReleased
+        /*if (evt.getKeyCode() == KeyEvent.VK_TAB) {
+            int posCursor = jTextAreaScript.getCaretPosition();
+            jTextAreaScript.setText(jTextAreaScript.getText().replaceAll("\t", "    "));
+            jTextAreaScript.setCaretPosition(posCursor + 3);
+        }*/
+    }//GEN-LAST:event_jTextAreaScriptKeyReleased
+
     private void jTextAreaScriptKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextAreaScriptKeyPressed
-        // TODO add your handling code here:
+       
     }//GEN-LAST:event_jTextAreaScriptKeyPressed
 
     public JScrollPane getjScrollPane() {
