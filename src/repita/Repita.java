@@ -29,9 +29,6 @@ import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
 import componentes.ButtonTabComponent;
-import japa.parser.JavaParser;
-import japa.parser.ParseException;
-import japa.parser.ast.CompilationUnit;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -39,6 +36,7 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.URL;
+import java.text.ParseException;
 import java.util.Arrays;
 import java.util.List;
 import javax.swing.ImageIcon;
@@ -46,13 +44,13 @@ import javax.swing.JDialog;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.text.Caret;
 import javax.tools.Diagnostic;
 import javax.tools.DiagnosticCollector;
 import javax.tools.JavaCompiler;
 import javax.tools.JavaFileObject;
 import javax.tools.StandardJavaFileManager;
 import javax.tools.ToolProvider;
+import org.jboss.forge.parser.JavaParser;
 
 /**
  *
@@ -840,7 +838,7 @@ public class Repita extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        int i = jTabbedPane.getSelectedIndex();
+        /*int i = jTabbedPane.getSelectedIndex();
         if (i > 0) {
             int tamTextoAntes = editor.getjTextAreaScript().getText().length();
             int posCursor = editor.getjTextAreaScript().getCaretPosition();
@@ -854,7 +852,7 @@ public class Repita extends javax.swing.JFrame {
             editor.getjTextAreaScript().setCaretPosition(posCursor + ((tamTextoAntes - editor.getjTextAreaScript().getText().length() - 1)*-1));
         } else {
             JOptionPane.showMessageDialog(null, "Nenhum projeto foi aberto ou iniciado", "Sem projetos", JOptionPane.INFORMATION_MESSAGE);
-        }
+        }*/
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void novo() {
